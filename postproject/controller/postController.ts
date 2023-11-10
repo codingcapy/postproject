@@ -6,7 +6,7 @@ async function getPosts(n = 5, sub = undefined) {
 }
 
 // added by PK on 2023 11 10 3:07PM
-async function createPost(title:any, link:any, creator:any, description:any, subgroup:any){
+async function createPost(title:any, link:any, description:any, subgroup:any, creator:any,){
   return db.addPost(title, link, creator, description, subgroup)
 }
 

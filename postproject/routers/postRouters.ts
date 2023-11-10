@@ -22,7 +22,9 @@ router.post("/create", ensureAuthenticated, async (req, res) => {
   console.log(newPost)
   console.log(creator)
   await database.createPost(newPost, creator);
-  res.status(200).json({ success: true })
+  const posts = await database.getPosts(20);
+  const user = await req.user;
+  res.status(200).render("posts", { posts, user })
 });
 
 router.get("/show/:postid", async (req, res) => {
