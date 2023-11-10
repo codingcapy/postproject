@@ -16,6 +16,13 @@ router.get("/create", ensureAuthenticated, (req, res) => {
 
 router.post("/create", ensureAuthenticated, async (req, res) => {
   // ⭐ TODO
+  // added by PK on 2023 11 30 3:09PM
+  const newPost = await req.body;
+  const creator = await Promise.resolve(req.user).then((user) => user.id)
+  console.log(newPost)
+  console.log(creator)
+  await database.createPost(newPost, creator);
+  res.status(200).json({ success: true })
 });
 
 router.get("/show/:postid", async (req, res) => {
