@@ -40,15 +40,15 @@
       <a href="/subs/list">Subgroups</a>
     </div>
 
-    <div>
-      <% if (user) { %>
+    <% if (user) { %> <!-- added by PK on 2023 11 7 8:40PM -->
+      <div>
         <a role="button" href="/posts/create">Create Post</a>
-        <% } %>
-    </div>
-    <p style="color: rgb(197, 172, 172)">
-      😦 Heads up...you probably want to hide the Create Post button above for
-      non-logged-in users!
-    </p>
+      </div>
+      <% } %>
+        <p style="color: rgb(197, 172, 172)">
+          😦 Heads up...you probably want to hide the Create Post button above for
+          non-logged-in users!
+        </p>
   </main>
 </body>
 
