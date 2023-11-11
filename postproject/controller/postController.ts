@@ -10,4 +10,9 @@ async function createPost(title:any, link:any,  creator:any, description:any, su
   return db.addPost(title, link, creator, description, subgroup)
 }
 
-export { getPosts, createPost };
+// added by PK on 2023 11 10 3:07PM
+async function getPost(id:any){
+  return db.getPost(id)
+}
+
+export { getPosts, createPost, getPost };

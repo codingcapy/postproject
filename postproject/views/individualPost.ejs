@@ -18,8 +18,16 @@
         <a role="button" href="/posts">Home</a>
       </div>
       <div>
-        <p>Implement this page yourself. It is from individualPost.ejs</p>
+        <!-- <p>Implement this page yourself. It is from individualPost.ejs</p> -->
+        <!-- added by PK on 2023 11 10 3:53PM -->
+        <p>Posted by <strong><%= post.creator.uname %></strong> on <%= post.timestamp/1000/60/60/24/365 + 1970 %>-<%= post.timestamp/1000/60/60/24/12/1970*10 %>-<%= post.timestamp/1000/60/60/24/1970 %> </p>
+        <h2><%= post.title %></h2>
+        <p>Votes: <%= post.votes.length %></p>
+        <h3>Subgroup: <%= post.subgroup %></h3>
+        <p><%= post.description %></p>
+        <p>Link: <%= post.link %></p>
       </div>
+      <h3>Comments</h3>
     </main>
   </body>
 </html>

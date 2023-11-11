@@ -33,7 +33,12 @@ router.post("/create", ensureAuthenticated, async (req, res) => {
 
 router.get("/show/:postid", async (req, res) => {
   // ⭐ TODO
-  res.render("individualPost");
+  // added by PK on 2023 11 30 3:09PM
+  const postId = req.params.postid
+  console.log(postId)
+  const post = await database.getPost(postId)
+  console.log(post)
+  res.render("individualPost", {post});
 });
 
 router.get("/edit/:postid", ensureAuthenticated, async (req, res) => {
