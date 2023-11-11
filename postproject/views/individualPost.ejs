@@ -25,7 +25,7 @@
         <p>Votes: <%= post.votes.length %></p>
         <h3>Subgroup: <%= post.subgroup %></h3>
         <p><%= post.description %></p>
-        <p>Link: <%= post.link %></p>
+        <p><strong>Link:</strong> <a href=<%= post.link %>><%= post.link %></a></p>
       </div>
       <h3>Comments</h3>
     </main>
