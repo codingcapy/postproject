@@ -35,10 +35,10 @@ router.get("/show/:postid", async (req, res) => {
   // ⭐ TODO
   // added by PK on 2023 11 30 3:09PM
   const postId = req.params.postid
-  console.log(postId)
   const post = await database.getPost(postId)
-  console.log(post)
-  res.render("individualPost", {post});
+  const user = await req.user;
+  const canEdit = (post.creator.id === user?.id) || false;
+  res.render("individualPost", {post, canEdit});
 });
 
 router.get("/edit/:postid", ensureAuthenticated, async (req, res) => {
