@@ -24,11 +24,16 @@ router.get("/show/:postid", async (req, res) => {
 });
 
 router.get("/edit/:postid", ensureAuthenticated, async (req, res) => {
-  // ⭐ TODO
+  // ⭐ TODO - David
+  const post = await database.getPost(req.params.postid);
+  const user = await req.user;
+  if (user.id == post.creator.id) res.render("editPost", { post });
+  else res.redirect("/");
 });
 
 router.post("/edit/:postid", ensureAuthenticated, async (req, res) => {
-  // ⭐ TODO
+  // ⭐ TODO - David
+
 });
 
 router.get("/deleteconfirm/:postid", ensureAuthenticated, async (req, res) => {
