@@ -9,4 +9,21 @@ async function getPost(id: number) {
   return db.getPost(id);
 }
 
-export { getPosts, getPost };
+async function editPost(
+  postId: number,
+  userId: number,
+  changes: {
+    title?: string;
+    link?: string;
+    description?: string;
+    subgroup?: string;
+  }
+) {
+  if (userId != db.getPost(postId).creator.id) return false;
+  else {
+    db.editPost(postId, changes);
+    return true;
+  }
+}
+
+export { getPosts, getPost, editPost };

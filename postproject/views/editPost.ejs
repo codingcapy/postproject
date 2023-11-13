@@ -17,9 +17,11 @@
       <a role="button" href="/posts">Back to Home</a>
     </div>
     <div>
-      <form action=<%= "/edit/" + post.id %> method="post">
+      <form action=<%= "/posts/edit/" + post.id %> method="post">
         <label for="title">Title</label>
         <input type="text" name="title" id="title" placeholder="Title" value="<%= post.title %>" />
+        <label for="subgroup">Subgroup</label>
+        <input type="text" name="subgroup" id="subgroup" placeholder="Subgroup" value="<%= post.subgroup %>" />
         <label for="link">Link</label>
         <input type="url" name="link" id="link" placeholder="Link" value="<%= post.link %>" />
         <label for="description">Description</label>

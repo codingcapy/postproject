@@ -33,7 +33,16 @@ router.get("/edit/:postid", ensureAuthenticated, async (req, res) => {
 
 router.post("/edit/:postid", ensureAuthenticated, async (req, res) => {
   // ⭐ TODO - David
-
+  const incomingEdits = await req.body;
+  console.log(incomingEdits);
+  const user = await req.user;
+  const postId = req.params.postid;
+  // Need to check what to do if user does not match creator
+  if (database.editPost(postId, user.id, incomingEdits)) {
+    res.redirect("/");
+  } else {
+    res.redirect("/");
+  }
 });
 
 router.get("/deleteconfirm/:postid", ensureAuthenticated, async (req, res) => {
