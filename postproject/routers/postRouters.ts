@@ -16,11 +16,29 @@ router.get("/create", ensureAuthenticated, (req, res) => {
 
 router.post("/create", ensureAuthenticated, async (req, res) => {
   // ⭐ TODO
+  // added by PK on 2023 11 30 3:09PM
+  const newPost = await req.body;
+  const creator = await Promise.resolve(req.user).then((user) => user.id);
+  console.log(newPost);
+  console.log(creator);
+  const title = newPost.title;
+  const link = newPost.link;
+  const description = newPost.description;
+  const subgroup = newPost.subgroup;
+  await database.createPost(title, link, creator, description, subgroup);
+  const posts = await database.getPosts(20);
+  const user = await req.user;
+  res.status(200).render("posts", { posts, user })
 });
 
 router.get("/show/:postid", async (req, res) => {
   // ⭐ TODO
-  res.render("individualPost");
+  // added by PK on 2023 11 30 3:09PM
+  const postId = req.params.postid
+  console.log(postId)
+  const post = await database.getPost(postId)
+  console.log(post)
+  res.render("individualPost", {post});
 });
 
 router.get("/edit/:postid", ensureAuthenticated, async (req, res) => {

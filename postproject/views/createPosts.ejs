@@ -18,6 +18,18 @@
         <a role="button" href="/posts">Home</a>
       </div>
       <p>Implement this yourself. It comes from createPost.ejs</p>
+      <!-- added by PK on 2023 11 10 3:07PM -->
+      <form action="/posts/create" method="POST">
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" placeholder="Enter a title" required>
+        <label for="link">Link</label>
+        <input type="text" name="link" id="link" placeholder="Enter a link" required>
+        <label for="description">Description</label>
+        <input type="text" name="description" id="description" placeholder="Enter description" required>
+        <label for="subgroup">Subgroup</label>
+        <input type="text" name="subgroup" id="subgroup" placeholder="Enter a subgroup" required>
+        <button type="submit">Post</button>
+      </form>
     </main>
   </body>
 </html>
