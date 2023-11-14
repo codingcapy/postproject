@@ -37,8 +37,9 @@ router.get("/show/:postid", async (req, res) => {
   const postId = req.params.postid
   const post = await database.getPost(postId)
   const user = await req.user;
+  const timestamp = new Date(post.timestamp);
   const canEdit = (post.creator.id === user?.id) || false;
-  res.render("individualPost", {post, canEdit});
+  res.render("individualPost", {post, timestamp, canEdit});
 });
 
 router.get("/edit/:postid", ensureAuthenticated, async (req, res) => {
