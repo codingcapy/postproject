@@ -31,5 +31,8 @@ async function createPost(title:any, link:any,  creator:any, description:any, su
 async function getPost(id:any){
   return db.getPost(id)
 }
+async function deletePost(id:any){
+  return db.deletePost(id)
+}
 
-export { getPosts, createPost, getPost, editPost };
+export { getPosts, createPost, getPost, editPost, deletePost };

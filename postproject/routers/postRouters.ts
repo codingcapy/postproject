@@ -39,6 +39,7 @@ router.get("/show/:postid", async (req, res) => {
   const user = await req.user;
   const timestamp = new Date(post.timestamp);
   const canEdit = (post.creator.id === user?.id) || false;
+
   res.render("individualPost", {post, timestamp, canEdit});
 });
 
@@ -65,11 +66,21 @@ router.post("/edit/:postid", ensureAuthenticated, async (req, res) => {
 });
 
 router.get("/deleteconfirm/:postid", ensureAuthenticated, async (req, res) => {
+  const post = await database.getPost(req.params.postid);
+  const user = await req.user;
+  if (user.id == post.creator.id) res.render("deletePosts", {post});
+  else res.redirect("/");
   // ⭐ TODO
 });
 
 router.post("/delete/:postid", ensureAuthenticated, async (req, res) => {
   // ⭐ TODO
+  const post = await database.getPost(req.params.postid);
+  if (database.deletePost(post.id)) {
+    res.redirect("/");
+  } else {
+    res.redirect("/");
+  }
 });
 
 router.post(
