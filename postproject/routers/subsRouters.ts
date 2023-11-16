@@ -11,8 +11,6 @@ router.get("/list", async (req, res) => {
 router.get("/show/:subname", async (req, res) => {
   const subName = await req.params.subname;
   const posts = await database.getPosts(20, subName)
-  console.log("subname::",posts)
-  // ⭐ TODO
   res.render("sub", {posts, subName});
 });
 
