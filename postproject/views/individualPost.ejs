@@ -1,42 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.classless.min.css"
-    />
-    <link href="/css/style.css" rel="stylesheet" />
-    <title>Post</title>
-  </head>
-  <body>
-    <main>
-      <div class="authOptions">
-        <h1>View Post</h1>
-        <a role="button" href="/posts">Home</a>
-      </div>
-      <div>
-        <!-- <p>Implement this page yourself. It is from individualPost.ejs</p> -->
-        <!-- added by PK on 2023 11 10 3:53PM -->
-        <p>Posted by <strong><%= post.creator.uname %></strong> on <%= timestamp.toString() %></p>
-        <h2><%= post.title %></h2>
-        <p>Votes: <%= post.votes.length %></p>
-        <h3>Subgroup: <%= post.subgroup %></h3>
-        <p><%= post.description %></p>
-        <p><strong>Link:</strong> <a href=<%= post.link %>><%= post.link %></a></p>
-      </div>
 
-      <div>
-        <% if (canEdit) { %>
-          <a role="button" href=<%= "/posts/edit/" + post.id %>>Edit Post</a>
-          <a role="button" href=<%= "/posts/deleteconfirm/" + post.id %>>Delete Post</a>
-        <% } %>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.classless.min.css" />
+  <link href="/css/style.css" rel="stylesheet" />
+  <title>Post</title>
+</head>
+
+<body>
+  <main>
+    <div class="authOptions">
+      <a href="/">
+        <h1>WebsiteName</h1>
+      </a>
+      <% if (isLoggedIn) { %>
+      <a role="button" href="/posts/create">Create Post</a>
+      <% } else { %>
+      <a role="button" href="/auth/login">Login</a>
+      <% } %>
+    </div>
+    <div>
+      <!-- <p>Implement this page yourself. It is from individualPost.ejs</p> -->
+      <!-- added by PK on 2023 11 10 3:53PM -->
+      <h2><%= post.title %></h2>
+      <p>Posted by <strong><%= post.creator.uname %></strong> on <%= timestamp.toString() %></p>
+      <p>Votes: <%= post.votes.length %></p>
+      <p>Subgroup: <%= post.subgroup %></p>
+      <p><%= post.description %></p>
+      <p><strong>Link:</strong> <a href=<%= post.link %>><%= post.link %></a></p>
+    </div>
+
+    <div>
+      <% if (canEdit) { %>
+      <a role="button" href=<%= "/posts/edit/" + post.id %>>Edit Post</a>
+      <a role="button" href=<%= "/posts/deleteconfirm/" + post.id %>>Delete Post</a>
+      <% } %>
+    </div>
 
 
-      <h3>Comments</h3>
-    </main>
-  </body>
+    <h3>Comments</h3>
+    <% comments.forEach(comment=> { %>
+    <p>Commented by <strong><%= comment.username %></strong> on <%= new Date(comment.timestamp).toString() %></p>
+    <p><%= comment.description %></p>
+    <% }) %>
+    <div>
+      <% if (isLoggedIn) { %>
+      <form action=<%= "/posts/comment-create/" + post.id %> method="post">
+        <label for="newComment">Add a comment...</label>
+        <textarea name="newComment" id="newComment" placeholder="Add a comment..." rows="4"></textarea>
+        <button type="submit">Add Comment</button>
+      </form>
+      <% } %>
+    </div>
+  </main>
+</body>
+
 </html>

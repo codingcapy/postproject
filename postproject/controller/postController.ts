@@ -39,4 +39,12 @@ async function getSubs(){
   return db.getSubs()
 }
 
-export { getPosts, createPost, getPost, editPost, deletePost, getSubs };
+async function getCommentsByPostId(postId: number){
+  return db.getCommentsByPostId(postId);
+}
+
+async function addComment(postId: number, userId: number, comment: string){
+  return db.addComment(postId, userId, comment);
+}
+
+export { getPosts, createPost, getPost, editPost, deletePost, getSubs, getCommentsByPostId, addComment };

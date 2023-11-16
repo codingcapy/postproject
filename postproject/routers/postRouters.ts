@@ -36,11 +36,13 @@ router.get("/show/:postid", async (req, res) => {
   // added by PK on 2023 11 30 3:09PM
   const postId = req.params.postid
   const post = await database.getPost(postId)
+  const comments = await database.getCommentsByPostId(postId)
   const user = await req.user;
   const timestamp = new Date(post.timestamp);
   const canEdit = (post.creator.id === user?.id) || false;
+  const isLoggedIn = typeof user !== 'undefined' ? true : false;
 
-  res.render("individualPost", {post, timestamp, canEdit});
+  res.render("individualPost", {post, comments, timestamp, canEdit, isLoggedIn});
 });
 
 router.get("/edit/:postid", ensureAuthenticated, async (req, res) => {
@@ -54,13 +56,13 @@ router.get("/edit/:postid", ensureAuthenticated, async (req, res) => {
 router.post("/edit/:postid", ensureAuthenticated, async (req, res) => {
   // ⭐ TODO - David
   const incomingEdits = await req.body;
-  console.log(incomingEdits);
   const user = await req.user;
   const postId = req.params.postid;
-  // Need to check what to do if user does not match creator
   if (database.editPost(postId, user.id, incomingEdits)) {
+    res.status(200);
     res.redirect("/");
   } else {
+    res.status(403);
     res.redirect("/");
   }
 });
@@ -87,7 +89,19 @@ router.post(
   "/comment-create/:postid",
   ensureAuthenticated,
   async (req, res) => {
-    // ⭐ TODO
+    // ⭐ TODO - David
+    const incomingComment = await req.body.newComment;
+    const user = await req.user;
+    const postId = req.params.postid;
+    const addedComment = await database.addComment(postId, user.id, incomingComment);
+    if(incomingComment == addedComment.description) {
+      res.status(200);
+      res.redirect("/posts/show/" + postId);
+    }
+    else {
+      res.status(500);
+      res.redirect("/posts/show/" + postId);
+    }
   }
 );
 

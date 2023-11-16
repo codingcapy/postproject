@@ -167,6 +167,14 @@ function addComment(post_id, creator, description) {
   return comment;
 }
 
+function getCommentsByPostId(postId: number) {
+  let allComments = Object.values(comments);
+  allComments = allComments.filter((comment) => comment.post_id == postId);
+  const allCommentsDisplay = allComments.map((comment)=>({...comment, username:getUser(comment.creator).uname}))
+  allCommentsDisplay.sort((a, b) => b.timestamp - a.timestamp);
+  return allCommentsDisplay;
+}
+
 export {
   debug,
   getUser,
@@ -179,4 +187,5 @@ export {
   getSubs,
   addComment,
   decoratePost,
+  getCommentsByPostId,
 };
