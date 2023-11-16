@@ -14,11 +14,28 @@
   <body>
     <main>
       <div class="authOptions">
-        <h1>Sub Posts</h1>
+        <h1>Sub Posts : <%= subName %> </h1>
         <a role="button" href="/posts">Home</a>
       </div>
       <div>
-        <p>Implement this page yourself. It is from sub.ejs</p>
+        <p>All Posts</p>
+        <% posts.forEach(post=> { %>
+          <table style="margin-bottom: 15px;">
+            <thead>
+              <tr>
+                <th>
+                  <a href="/posts/show/<%=post.id%>" style="font-size: x-large">
+                     <%= post.title %> 
+                  </a>
+                  <p style="font-size: small; color: rgb(155, 155, 155); margin-bottom: 20px;">Posted by <strong><%= post.username %></strong></p>
+                  <p style="font-size: medium; margin-bottom: 14px;">
+                    Content : <%= post.description %>
+                  </p>
+                </th>
+            </tr>
+          </thead>
+        </table>
+          <% }) %>
       </div>
     </main>
   </body>

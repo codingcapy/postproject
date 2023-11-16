@@ -4,13 +4,16 @@ import * as database from "../controller/postController";
 const router = express.Router();
 
 router.get("/list", async (req, res) => {
-  // ⭐ TODO
-  res.render("subs");
+  const subs = (await database.getSubs()).sort();
+  res.render("subs", {subs});
 });
 
 router.get("/show/:subname", async (req, res) => {
+  const subName = await req.params.subname;
+  const posts = await database.getPosts(20, subName)
+  console.log("subname::",posts)
   // ⭐ TODO
-  res.render("sub");
+  res.render("sub", {posts, subName});
 });
 
 export default router;
