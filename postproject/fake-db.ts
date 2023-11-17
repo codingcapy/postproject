@@ -175,6 +175,10 @@ function getCommentsByPostId(postId: number) {
   return allCommentsDisplay;
 }
 
+function getComment(commentId: number) {
+  return comments[commentId];
+}
+
 export {
   debug,
   getUser,
@@ -188,4 +192,5 @@ export {
   addComment,
   decoratePost,
   getCommentsByPostId,
+  getComment,
 };

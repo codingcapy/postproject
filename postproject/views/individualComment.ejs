@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.classless.min.css" />
+  <link href="/css/style.css" rel="stylesheet" />
+  <title>Post</title>
+</head>
+
+<body>
+  <main>
+
+    <div class="authOptions">
+      <a href="/">
+        <h1>WebsiteName</h1>
+      </a>
+      <% if (isLoggedIn) { %>
+      <a role="button" href="/posts/create">Create Post</a>
+      <% } else { %>
+      <a role="button" href="/auth/login">Login</a>
+      <% } %>
+    </div>
+
+    <div>
+      <a role="button" href=<%= "/posts/show/" + comment.post_id %>>Back to Post</a>
+    </div>
+
+    <div>
+      <p>Commented by <strong><%= comment.username %></strong> on <%= new Date(comment.timestamp).toString() %></p>
+      <p><%= comment.description %></p>
+    </div>
+
+    <div>
+      <% if (canEdit) { %>
+      <a role="button" href=<%= "/comment/edit/" + comment.id %>>Edit Comment</a>
+      <a role="button" href=<%= "/comment/deleteconfirm/" + comment.id %>>Delete Comment</a>
+      <% } %>
+    </div>
+
+  </main>
+</body>
+
+</html>

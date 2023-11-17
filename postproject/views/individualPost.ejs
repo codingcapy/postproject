@@ -45,6 +45,7 @@
     <% comments.forEach(comment=> { %>
     <p>Commented by <strong><%= comment.username %></strong> on <%= new Date(comment.timestamp).toString() %></p>
     <p><%= comment.description %></p>
+    <a href=<%= "/comments/show/" + comment.id %>>Show comment</a>
     <% }) %>
     <div>
       <% if (isLoggedIn) { %>
