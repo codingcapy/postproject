@@ -16,17 +16,20 @@
       <a href="/">
         <h1>WebsiteName</h1>
       </a>
-      <% if (isLoggedIn) { %>
+      <div>
+      <% if (loggedIn) { %>
       <a role="button" href="/posts/create">Create Post</a>
+      <a role="button" href="/auth/logout">Logout</a>
       <% } else { %>
       <a role="button" href="/auth/login">Login</a>
       <% } %>
+    </div>
     </div>
     <div>
       <!-- <p>Implement this page yourself. It is from individualPost.ejs</p> -->
       <!-- added by PK on 2023 11 10 3:53PM -->
       <h2><%= post.title %></h2>
-      <p>Posted by <strong><%= post.creator.uname %></strong> on <%= timestamp.toString() %></p>
+      <p class="userDescription">Posted by <strong><%= post.creator.uname %></strong> on <%= timestamp.toString() %></p>
       <p>Votes: <%= post.votes.length %></p>
       <p>Subgroup: <%= post.subgroup %></p>
       <p><%= post.description %></p>
@@ -42,13 +45,15 @@
 
 
     <h3>Comments</h3>
+    <hr>
     <% comments.forEach(comment=> { %>
-    <p>Commented by <strong><%= comment.username %></strong> on <%= new Date(comment.timestamp).toString() %></p>
+    <p class="userDescription">Commented by <strong><%= comment.username %></strong> on <%= new Date(comment.timestamp).toString() %></p>
     <p><%= comment.description %></p>
     <a href=<%= "/comments/show/" + comment.id %>>Show comment</a>
+    <hr>
     <% }) %>
     <div>
-      <% if (isLoggedIn) { %>
+      <% if (loggedIn) { %>
       <form action=<%= "/posts/comment-create/" + post.id %> method="post">
         <label for="newComment">Add a comment...</label>
         <textarea name="newComment" id="newComment" placeholder="Add a comment..." rows="4"></textarea>

@@ -101,12 +101,15 @@ function decoratePost(post) {
  * @param {*} n how many posts to get, defaults to 5
  * @param {*} sub which sub to fetch, defaults to all subs
  */
-function getPosts(n = 5, sub : string) {
+function getPosts(n = 5, sub: string) {
   let allPosts = Object.values(posts);
   if (sub) {
     allPosts = allPosts.filter((post) => post.subgroup === sub);
   }
-  const allPostsDisplay = allPosts.map((post)=>({...post, username:getUser(post.creator).uname}))
+  const allPostsDisplay = allPosts.map((post) => ({
+    ...post,
+    username: getUser(post.creator).uname,
+  }));
   allPostsDisplay.sort((a, b) => b.timestamp - a.timestamp);
   return allPostsDisplay.slice(0, n);
 }
@@ -170,13 +173,23 @@ function addComment(post_id, creator, description) {
 function getCommentsByPostId(postId: number) {
   let allComments = Object.values(comments);
   allComments = allComments.filter((comment) => comment.post_id == postId);
-  const allCommentsDisplay = allComments.map((comment)=>({...comment, username:getUser(comment.creator).uname}))
+  const allCommentsDisplay = allComments.map((comment) => ({
+    ...comment,
+    username: getUser(comment.creator).uname,
+  }));
   allCommentsDisplay.sort((a, b) => b.timestamp - a.timestamp);
   return allCommentsDisplay;
 }
 
 function getComment(commentId: number) {
-  return comments[commentId];
+  if (commentId in comments) {
+    const comment = comments[commentId];
+    const decoratedComment = {
+      ...comment,
+      username: getUser(comment.creator).uname,
+    };
+    return decoratedComment;
+  } else return null;
 }
 
 export {

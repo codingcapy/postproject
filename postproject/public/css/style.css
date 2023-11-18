@@ -3,3 +3,9 @@
   justify-content: space-between;
   align-items: flex-start;
 }
+
+.userDescription {
+  font-size: small;
+  color: rgb(155, 155, 155);
+  margin-bottom: 20px;
+}
