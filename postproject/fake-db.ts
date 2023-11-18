@@ -1,4 +1,4 @@
-// @ts-nocheck
+// // @ts-nocheck
 const users = {
   1: {
     id: 1,
@@ -71,30 +71,33 @@ function debug() {
   console.log("==== DB DEBUGING ====");
 }
 
-function getUser(id) {
-  return users[id];
+function getUser(id: number) : Express.User {
+  return users[id as keyof typeof users];
 }
 
-function getUserByUsername(uname: any) {
+function getUserByUsername(uname: string) : Express.User {
   return getUser(
     Object.values(users).filter((user) => user.uname === uname)[0].id
   );
 }
 
-function getVotesForPost(post_id) {
+function getVotesForPost(post_id: number) : Vote[] {
   return votes.filter((vote) => vote.post_id === post_id);
 }
 
-function decoratePost(post) {
-  post = {
+function decoratePost(post: Post) : DecoratedPost {
+  const decoratedPost = {
     ...post,
-    creator: users[post.creator],
+    creator: users[post.creator as keyof typeof users],
     votes: getVotesForPost(post.id),
     comments: Object.values(comments)
       .filter((comment) => comment.post_id === post.id)
-      .map((comment) => ({ ...comment, creator: users[comment.creator] })),
+      .map((comment) => ({
+        ...comment,
+        creator: users[comment.creator as keyof typeof users],
+      })),
   };
-  return post;
+  return decoratedPost;
 }
 
 /**
@@ -114,27 +117,41 @@ function getPosts(n = 5, sub: string) {
   return allPostsDisplay.slice(0, n);
 }
 
-function getPost(id) {
-  return decoratePost(posts[id]);
+function getPost(id: number) {
+  return decoratePost(posts[id as keyof typeof posts]);
 }
 
-function addPost(title, link, creator, description, subgroup) {
+function addPost(
+  title: string,
+  link: string,
+  creator: number,
+  description: string,
+  subgroup: string
+) : Post {
   let id = Math.max(...Object.keys(posts).map(Number)) + 1;
   let post = {
     id,
     title,
     link,
     description,
-    creator: Number(creator),
+    creator,
     subgroup,
     timestamp: Date.now(),
   };
-  posts[id] = post;
+  posts[id as keyof typeof posts] = post;
   return post;
 }
 
-function editPost(post_id, changes = {}) {
-  let post = posts[post_id];
+function editPost(
+  post_id: number,
+  changes: {
+    title?: string;
+    link?: string;
+    description?: string;
+    subgroup?: string;
+  }
+) {
+  let post = posts[post_id as keyof typeof posts];
   if (changes.title) {
     post.title = changes.title;
   }
@@ -149,28 +166,28 @@ function editPost(post_id, changes = {}) {
   }
 }
 
-function deletePost(post_id) {
-  delete posts[post_id];
+function deletePost(post_id: number) {
+  delete posts[post_id as keyof typeof posts];
 }
 
 function getSubs() {
   return Array.from(new Set(Object.values(posts).map((post) => post.subgroup)));
 }
 
-function addComment(post_id, creator, description) {
+function addComment(post_id: number, creator: number, description: string) {
   let id = Math.max(...Object.keys(comments).map(Number)) + 1;
   let comment = {
     id,
-    post_id: Number(post_id),
-    creator: Number(creator),
+    post_id: post_id,
+    creator: creator,
     description,
     timestamp: Date.now(),
   };
-  comments[id] = comment;
+  comments[id as keyof typeof comments] = comment;
   return comment;
 }
 
-function getCommentsByPostId(postId: number) {
+function getCommentsByPostId(postId: number) : Comment[] {
   let allComments = Object.values(comments);
   allComments = allComments.filter((comment) => comment.post_id == postId);
   const allCommentsDisplay = allComments.map((comment) => ({
@@ -181,9 +198,9 @@ function getCommentsByPostId(postId: number) {
   return allCommentsDisplay;
 }
 
-function getComment(commentId: number) {
+function getComment(commentId: number) : Comment | null {
   if (commentId in comments) {
-    const comment = comments[commentId];
+    const comment = comments[commentId as keyof typeof comments];
     const decoratedComment = {
       ...comment,
       username: getUser(comment.creator).uname,

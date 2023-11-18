@@ -40,7 +40,7 @@ router.get("/show/:postid", async (req, res) => {
   const comments = await database.getCommentsByPostId(Number(postId));
   const user = await req.user;
   const timestamp = new Date(post.timestamp);
-  const canEdit = canEditPost(post.creator.id, user);
+  const canEdit = canEditPost(post, user);
   const loggedIn = isLoggedIn(user);
 
   res.render("individualPost", {
@@ -56,7 +56,7 @@ router.get("/edit/:postid", ensureAuthenticated, async (req, res) => {
   // ⭐ TODO - David
   const post = await database.getPost(req.params.postid);
   const user = await req.user;
-  const canEdit = canEditPost(post.creator.id, user);
+  const canEdit = canEditPost(post, user);
   if (canEdit) res.render("editPost", { post });
   else res.redirect("/");
 });
@@ -78,7 +78,7 @@ router.post("/edit/:postid", ensureAuthenticated, async (req, res) => {
 router.get("/deleteconfirm/:postid", ensureAuthenticated, async (req, res) => {
   const post = await database.getPost(req.params.postid);
   const user = await req.user;
-  const canEdit = canEditPost(post.creator.id, user);
+  const canEdit = canEditPost(post, user);
   if (canEdit) res.render("deletePosts", { post });
   else res.redirect("/");
   // ⭐ TODO

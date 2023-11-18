@@ -6,14 +6,40 @@ declare global {
       password: string;
     }
   }
+
+  interface Comment {
+    id: number;
+    post_id: number;
+    creator: number;
+    description: string;
+    timestamp: number;
+  }
+
+  interface DecoratedComment extends Comment {
+    creator: Express.User;
+  }
+
+  interface Post {
+    id: number;
+    title: string;
+    link: string;
+    description: string;
+    creator: number;
+    subgroup: string;
+    timestamp: number;
+  }
+
+  interface DecoratedPost extends Post {
+    creator: Express.user;
+    votes: Vote[];
+    comments: DecoratedComment[];
+  }
+
+  interface Vote {
+    user_id: number;
+    post_id: number;
+    value: number;
+  }
 }
 
-interface Comment {
-  id: number;
-  post_id: number;
-  creator: number;
-  description: any;
-  timestamp: number;
-}
-
-export { User, Comment };
+export { User, Comment, DecoratedComment, Post, DecoratedPost, Vote };

@@ -14,7 +14,7 @@ export const getUserByEmailIdAndPassword = async (
   }
 };
 
-export const getUserById = async (id: string) => {
+export const getUserById = async (id: number) => {
   let user = db.getUser(id);
   if (user) {
     return user;

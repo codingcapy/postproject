@@ -10,7 +10,7 @@ router.get("/show/:commentid", async (req, res) => {
   const user = await req.user;
   const loggedIn = isLoggedIn(user);
   if (comment) {
-    const canEdit = canEditComment(comment.creator, user);
+    const canEdit = canEditComment(comment, user);
     res.render("individualComment", { comment, canEdit, loggedIn });
   } else {
     res.render("individualComment", { comment, loggedIn });
