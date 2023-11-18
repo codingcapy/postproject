@@ -35,7 +35,7 @@ router.post("/create", ensureAuthenticated, async (req, res) => {
 router.get("/show/:postid", async (req, res) => {
   // ⭐ TODO
   // added by PK on 2023 11 30 3:09PM
-  const postId = req.params.postid;
+  const postId = Number(req.params.postid);
   const post = await database.getPost(postId);
   const comments = await database.getCommentsByPostId(Number(postId));
   const user = await req.user;
@@ -54,7 +54,7 @@ router.get("/show/:postid", async (req, res) => {
 
 router.get("/edit/:postid", ensureAuthenticated, async (req, res) => {
   // ⭐ TODO - David
-  const post = await database.getPost(req.params.postid);
+  const post = await database.getPost(Number(req.params.postid));
   const user = await req.user;
   const canEdit = canEditPost(post, user);
   if (canEdit) res.render("editPost", { post });
@@ -76,7 +76,7 @@ router.post("/edit/:postid", ensureAuthenticated, async (req, res) => {
 });
 
 router.get("/deleteconfirm/:postid", ensureAuthenticated, async (req, res) => {
-  const post = await database.getPost(req.params.postid);
+  const post = await database.getPost(Number(req.params.postid));
   const user = await req.user;
   const canEdit = canEditPost(post, user);
   if (canEdit) res.render("deletePosts", { post });
@@ -86,7 +86,7 @@ router.get("/deleteconfirm/:postid", ensureAuthenticated, async (req, res) => {
 
 router.post("/delete/:postid", ensureAuthenticated, async (req, res) => {
   // ⭐ TODO
-  const post = await database.getPost(req.params.postid);
+  const post = await database.getPost(Number(req.params.postid));
   await database.deletePost(post.id);
   res.redirect("/");
 });

@@ -23,28 +23,43 @@ async function editPost(
 }
 
 // added by PK on 2023 11 10 3:07PM
-async function createPost(title:any, link:any,  creator:any, description:any, subgroup:any,){
-  return db.addPost(title, link, creator, description, subgroup)
+async function createPost(
+  title: string,
+  link: string,
+  creator: number,
+  description: string,
+  subgroup: string
+) {
+  return db.addPost(title, link, creator, description, subgroup);
 }
 
 // added by PK on 2023 11 10 3:07PM
-async function getPost(id:any){
-  return db.getPost(id)
+async function getPost(id: number) {
+  return db.getPost(id);
 }
-async function deletePost(id:any){
-  return db.deletePost(id)
-}
-
-async function getSubs(){
-  return db.getSubs()
+async function deletePost(id: number) {
+  return db.deletePost(id);
 }
 
-async function getCommentsByPostId(postId: number){
+async function getSubs() {
+  return db.getSubs();
+}
+
+async function getCommentsByPostId(postId: number) {
   return db.getCommentsByPostId(postId);
 }
 
-async function addComment(postId: number, userId: number, comment: string){
+async function addComment(postId: number, userId: number, comment: string) {
   return db.addComment(postId, userId, comment);
 }
 
-export { getPosts, createPost, getPost, editPost, deletePost, getSubs, getCommentsByPostId, addComment };
+export {
+  getPosts,
+  createPost,
+  getPost,
+  editPost,
+  deletePost,
+  getSubs,
+  getCommentsByPostId,
+  addComment,
+};
