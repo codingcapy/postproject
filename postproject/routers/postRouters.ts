@@ -68,10 +68,10 @@ router.post("/edit/:postid", ensureAuthenticated, async (req, res) => {
   const postId = Number(req.params.postid);
   if (await database.editPost(postId, user!.id, incomingEdits)) {
     res.status(200);
-    res.redirect("/");
+    res.redirect("/posts/show/"+postId);
   } else {
     res.status(403);
-    res.redirect("/");
+    res.redirect("/posts/show/"+postId);
   }
 });
 

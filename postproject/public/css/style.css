@@ -9,3 +9,21 @@
   color: rgb(155, 155, 155);
   margin-bottom: 20px;
 }
+
+.postDescription {
+  border: 1px solid;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: medium;
+}
+
+.postTitle {
+  font-size: larger;
+  font-weight: normal;
+  margin-bottom: 1px;
+}
+
+.votes {
+  font-weight: bold;
+  font-size: small;
+}
