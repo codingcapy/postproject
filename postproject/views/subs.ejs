@@ -1,38 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.classless.min.css"
-    />
-    <link href="/css/style.css" rel="stylesheet" />
-    <title>Subs</title>
-  </head>
-  <body>
-    <main>
-      <div class="authOptions">
-        <h1>Sub Groups</h1>
-        <a role="button" href="/posts">Home</a>
-      </div>
-      <div class ="grid">
-        <p>All Sub lists</p>
-        <% subs.forEach(sub=> { %>
-          <table style="margin-bottom: 15px;">
-            <thead>
-              <tr>
-                <th >
-                  <a href="/subs/show/<%=sub%>" style ="font-size: xx-large;" >
-                    <%= sub %>
-                  </a>
-                </th>
-              </tr>
-            </thead>
-          </table>
-        <% }) %>
-      </div>
-    </main>
-  </body>
-</html>
+<header>
+  <a role="button" href="/posts">Home</a>
+</header>
+<div class="authOptions">
+  <h1>Sub Groups</h1>
+</div>
+<div class="grid">
+  <p>All Sub lists</p>
+  <% subs.forEach(sub=> { %>
+    <table style="margin-bottom: 15px;">
+      <thead>
+        <tr>
+          <th>
+            <a href="/subs/show/<%=sub%>" style="font-size: xx-large;">
+              <%= sub %>
+            </a>
+          </th>
+        </tr>
+      </thead>
+    </table>
+    <% }) %>
+</div>

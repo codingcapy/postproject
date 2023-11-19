@@ -1,42 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.classless.min.css"
-    />
-    <link href="/css/style.css" rel="stylesheet" />
-    <title>Sub posts</title>
-  </head>
-  <body>
-    <main>
-      <div class="authOptions">
-        <h1>Sub Posts : <%= subName %> </h1>
-        <a role="button" href="/posts">Home</a>
-      </div>
-      <div>
-        <p>All Posts</p>
-        <% posts.forEach(post=> { %>
-          <table style="margin-bottom: 15px;">
-            <thead>
-              <tr>
-                <th>
-                  <a href="/posts/show/<%=post.id%>" style="font-size: x-large">
-                     <%= post.title %> 
-                  </a>
-                  <p style="font-size: small; color: rgb(155, 155, 155); margin-bottom: 20px;">Posted by <strong><%= post.username %></strong></p>
-                  <p style="font-size: medium; margin-bottom: 14px;">
-                    Content : <%= post.description %>
-                  </p>
-                </th>
-            </tr>
-          </thead>
-        </table>
-          <% }) %>
-      </div>
-    </main>
-  </body>
-</html>
+<header>
+  <a role="button" href="/posts">Home</a>
+</header>
+<div class="authOptions">
+  <h1>Sub Posts : <%= subName %>
+  </h1>
+</div>
+<div>
+  <p>All Posts</p>
+  <% posts.forEach(post=> { %>
+    <table style="margin-bottom: 15px;">
+      <thead>
+        <tr>
+          <th>
+            <a href="/posts/show/<%=post.id%>" style="font-size: x-large">
+              <%= post.title %>
+            </a>
+            <p style="font-size: small; color: rgb(155, 155, 155); margin-bottom: 20px;">Posted by <strong>
+                <%= post.username %>
+              </strong></p>
+            <p style="font-size: medium; margin-bottom: 14px;">
+              Content : <%= post.description %>
+            </p>
+          </th>
+        </tr>
+      </thead>
+    </table>
+    <% }) %>
+</div>
