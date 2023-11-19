@@ -1,35 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.classless.min.css" />
-  <link href="/css/style.css" rel="stylesheet" />
-  <title>Edit Post</title>
-</head>
-
-<body>
-  <main>
-    <div class="authOptions">
-      <h1>Edit Post</h1>
-      <a role="button" href="/posts">Back to Home</a>
-    </div>
-    <div>
-      <form action=<%= "/posts/edit/" + post.id %> method="post">
-        <label for="title">Title</label>
-        <input type="text" name="title" id="title" placeholder="Title" value="<%= post.title %>" />
-        <label for="subgroup">Subgroup</label>
-        <input type="text" name="subgroup" id="subgroup" placeholder="Subgroup" value="<%= post.subgroup %>" />
-        <label for="link">Link</label>
-        <input type="url" name="link" id="link" placeholder="Link" value="<%= post.link %>" />
-        <label for="description">Description</label>
-        <textarea name="description" id="description" placeholder="Description" rows="4"><%= post.description %></textarea>
-        <button type="submit">Update</button>
-      </form>
-    </div>
-  </main>
-</body>
-
-</html>
+<header>
+  <a role="button" href="/posts">Home</a>
+</header>
+<main>
+  <div class="authOptions">
+    <h1>Edit Post</h1>
+    <a role="button" href="/posts">Back to Home</a>
+  </div>
+  <div>
+    <form action=<%="/posts/edit/" + post.id %> method="post">
+      <label for="title">Title</label>
+      <input type="text" name="title" id="title" placeholder="Title" value="<%= post.title %>" />
+      <label for="subgroup">Subgroup</label>
+      <input type="text" name="subgroup" id="subgroup" placeholder="Subgroup" value="<%= post.subgroup %>" />
+      <label for="link">Link</label>
+      <input type="url" name="link" id="link" placeholder="Link" value="<%= post.link %>" />
+      <label for="description">Description</label>
+      <textarea name="description" id="description" placeholder="Description"
+        rows="4"><%= post.description %></textarea>
+      <button type="submit">Update</button>
+    </form>
+  </div>
+</main>

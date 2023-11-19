@@ -1,38 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.classless.min.css"
-    />
-    <link href="/css/style.css" rel="stylesheet" />
-    <title>Delete</title>
-  </head>
-  <body>
-    <dialog open={true}>
-      <article>
-        <h3>Confirm your action!</h3>
-        <p>
-          Are you sure you want to delete the item? You will lose all related
-          data and this operation is irreversible:
-        </p>
-        <footer>
-            <form action=<%= "/posts/delete/" + post.id %> method="post">
-                <button type ="button" onclick="goBack()" class="secondary">Cancel</button>
-                <button type="submit" class="secondary" style="margin-left: 0px">Delete</button>
-            </form>
-        </footer>
-      </article>
-    </dialog>
+<dialog open={true}>
+  <article>
+    <h3>Confirm your action!</h3>
+    <p>
+      Are you sure you want to delete the item? You will lose all related
+      data and this operation is irreversible:
+    </p>
+    <footer>
+      <form action=<%="/posts/delete/" + post.id %> method="post">
+        <button type="button" onclick="goBack()" class="secondary">Cancel</button>
+        <button type="submit" class="secondary" style="margin-left: 0px">Delete</button>
+      </form>
+    </footer>
+  </article>
+</dialog>
 
-    <script>
-      function goBack() {
-        window.history.back();
-      }
-    </script>
-
-  </body>
-</html>
+<script>
+  function goBack() {
+    window.history.back();
+  }
+</script>
