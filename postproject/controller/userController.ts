@@ -21,3 +21,7 @@ export const getUserById = async (id: number) => {
   }
   return null;
 };
+
+export async function createUser(uname: string, password: string) {
+  return db.addUser(uname, password)
+}

@@ -1,3 +1,5 @@
+import { User } from "./typings";
+
 // // @ts-nocheck
 const users = {
   1: {
@@ -71,21 +73,37 @@ function debug() {
   console.log("==== DB DEBUGING ====");
 }
 
-function getUser(id: number) : Express.User {
+function getUser(id: number): Express.User {
   return users[id as keyof typeof users];
 }
 
-function getUserByUsername(uname: string) : Express.User {
+function getUserByUsername(uname: string): Express.User {
   return getUser(
     Object.values(users).filter((user) => user.uname === uname)[0].id
   );
 }
 
-function getVotesForPost(post_id: number) : Vote[] {
+// added by PK on 2023 11 19 9:17AM
+function addUser(
+  uname: string,
+  password: string,
+): User {
+  let id = Math.max(...Object.keys(users).map(Number)) + 1;
+  let user = {
+    id,
+    uname,
+    password,
+    timestamp: Date.now(),
+  };
+  users[id as keyof typeof users] = user;
+  return user;
+}
+
+function getVotesForPost(post_id: number): Vote[] {
   return votes.filter((vote) => vote.post_id === post_id);
 }
 
-function decoratePost(post: Post) : DecoratedPost {
+function decoratePost(post: Post): DecoratedPost {
   const decoratedPost = {
     ...post,
     creator: users[post.creator as keyof typeof users],
@@ -127,7 +145,7 @@ function addPost(
   creator: number,
   description: string,
   subgroup: string
-) : Post {
+): Post {
   let id = Math.max(...Object.keys(posts).map(Number)) + 1;
   let post = {
     id,
@@ -187,7 +205,7 @@ function addComment(post_id: number, creator: number, description: string) {
   return comment;
 }
 
-function getCommentsByPostId(postId: number) : Comment[] {
+function getCommentsByPostId(postId: number): Comment[] {
   let allComments = Object.values(comments);
   allComments = allComments.filter((comment) => comment.post_id == postId);
   const allCommentsDisplay = allComments.map((comment) => ({
@@ -198,7 +216,7 @@ function getCommentsByPostId(postId: number) : Comment[] {
   return allCommentsDisplay;
 }
 
-function getComment(commentId: number) : Comment | null {
+function getComment(commentId: number): Comment | null {
   if (commentId in comments) {
     const comment = comments[commentId as keyof typeof comments];
     const decoratedComment = {
@@ -223,4 +241,5 @@ export {
   decoratePost,
   getCommentsByPostId,
   getComment,
+  addUser
 };

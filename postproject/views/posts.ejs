@@ -16,6 +16,7 @@
       <h1>Homepage</h1>
       <% if (!user) { %>
         <a role="button" href="/auth/login">Login</a>
+        <a role="button" href="/users/">Signup</a>
         <% } else { %>
           <a role="button" href="/auth/logout">Logout</a>
           <% } %>
@@ -29,7 +30,9 @@
           <a href="/posts/show/<%=post.id%>">
             <%= post.title %>
           </a>
-          <p>Posted by <strong><%= post.username %></strong></p>
+          <p>Posted by <strong>
+              <%= post.username %>
+            </strong></p>
           <p>
             <%= post.description %>
           </p>
