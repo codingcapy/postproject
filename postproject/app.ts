@@ -1,6 +1,7 @@
 import express from "express";
 import session from "express-session";
 import passport from "./middleware/passport";
+import expressLayouts from "express-ejs-layouts"
 const PORT = process.env.PORT || 8000;
 
 const app = express();
@@ -32,6 +33,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(expressLayouts);
 
 app.use("/auth", authRoute);
 app.use("/posts", postsRoute);
