@@ -35,7 +35,7 @@
 <b>Comments</b>
 <hr>
 <% comments.forEach(comment=> { %>
-  <span class="text"><%= comment.description %>  </span><br>
+  <span class="text"><%- comment.description.replace(/(\r\n|\n|\r)/g, '<br>')%></span><br>
   <span class="userDescription">
     Commented by <strong><%= comment.username %></strong> on <%= new Date(comment.timestamp).toString() %> | <a href=<%="/comments/show/" + comment.id%>>Permalink</a>
         <% if (user?.id == comment.creator) { %> %>
