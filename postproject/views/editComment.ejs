@@ -1,0 +1,27 @@
+<header>
+  <a role="button" href="/posts">Home</a>
+  <% if (loggedIn) { %>
+    <a role="button" href="/posts/create">Create Post</a>
+    <a role="button" href="/auth/logout">Logout</a>
+    <% } else { %>
+      <a role="button" href="/auth/login">Login</a>
+      <a role="button" href="/users/">Signup</a>
+      <% } %>
+</header>
+<div class="authOptions">
+  <a href="/">
+    <h1>WebsiteName</h1>
+  </a>
+</div>
+<main>
+  <div class="authOptions">
+    <h1>Edit Comment</h1>
+    <a role="button" href="/posts">Back to Home</a>
+  </div>
+  <div>
+    <form action=<%="/comments/edit/" + comment.id %> method="post">
+      <textarea class="text" name="description" id="description" placeholder="Add a comment..." rows="4"><%= comment.description %></textarea>
+      <button type="submit">Update</button>
+    </form>
+  </div>
+</main>

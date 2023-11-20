@@ -44,6 +44,7 @@ router.get("/show/:postid", async (req, res) => {
   const loggedIn = isLoggedIn(user);
 
   res.render("individualPost", {
+    user,
     post,
     comments,
     timestamp,

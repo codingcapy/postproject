@@ -32,8 +32,8 @@
 
     <div>
       <% if (canEdit) { %>
-        <a role="button" href=<%="/comment/edit/" + comment.id %>>Edit Comment</a>
-        <a role="button" href=<%="/comment/deleteconfirm/" + comment.id %>>Delete Comment</a>
+        <a role="button" href=<%="/comments/edit/" + comment.id %>>Edit Comment</a>
+        <a role="button" href=<%="/comments/deleteconfirm/" + comment.id %>>Delete Comment</a>
         <% } %>
     </div>
     <% } else { %>

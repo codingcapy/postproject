@@ -227,6 +227,19 @@ function getComment(commentId: number): Comment | null {
   } else return null;
 }
 
+function editComment(
+  comment_id: number,
+  changes: {
+    description?: string;
+  }
+) {
+  let comment = comments[comment_id as keyof typeof comments];
+
+  if (changes.description) {
+    comment.description = changes.description;
+  }
+}
+
 export {
   debug,
   getUser,
@@ -241,5 +254,6 @@ export {
   decoratePost,
   getCommentsByPostId,
   getComment,
-  addUser
+  addUser,
+  editComment
 };

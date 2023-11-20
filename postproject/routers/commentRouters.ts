@@ -19,11 +19,34 @@ router.get("/show/:commentid", async (req, res) => {
 
 router.post("/reply/:commentid", ensureAuthenticated, async (req, res) => {});
 
-router.get("/edit/:commentid", ensureAuthenticated, async (req, res) => {});
+router.get("/edit/:commentid", ensureAuthenticated, async (req, res) => {
+  const commentId = req.params.commentid;
+  const comment = await database.getComment(Number(commentId));
+  const user = await req.user;
+  const loggedIn = isLoggedIn(user);
+  if (comment) {
+    const canEdit = canEditComment(comment, user);
+    if (canEdit) res.render("editComment", { comment, loggedIn });
+    else res.redirect("/posts/show/" + comment.post_id);
+  } else {
+    res.redirect("/");
+  }
+});
 
-router.post("/edit/:commentid", ensureAuthenticated, async (req, res) => {});
+router.post("/edit/:commentid", ensureAuthenticated, async (req, res) => {
+  const incomingEdits = await req.body;
+  const user = await req.user;
+  const commentId = req.params.commentid;
+  await database.editComment(Number(commentId), incomingEdits);
+  const comment = await database.getComment(Number(commentId));
+  res.redirect("/posts/show/" + comment!.post_id);
+});
 
-router.get("/deleteconfirm/:commentid", ensureAuthenticated, async (req, res) => {});
+router.get(
+  "/deleteconfirm/:commentid",
+  ensureAuthenticated,
+  async (req, res) => {}
+);
 
 router.post("/delete/:commentid", ensureAuthenticated, async (req, res) => {});
 

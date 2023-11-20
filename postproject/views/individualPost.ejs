@@ -35,19 +35,20 @@
 <b>Comments</b>
 <hr>
 <% comments.forEach(comment=> { %>
-  <span>
-    <%= comment.description %>
-  </span><br>
-  <span class="userDescription">Commented by <strong>
-      <%= comment.username %>
-    </strong> on <%= new Date(comment.timestamp).toString() %> <a href=<%="/comments/show/" + comment.id
-        %>>permalink</a></span>
+  <span class="text"><%= comment.description %>  </span><br>
+  <span class="userDescription">
+    Commented by <strong><%= comment.username %></strong> on <%= new Date(comment.timestamp).toString() %> | <a href=<%="/comments/show/" + comment.id%>>Permalink</a>
+        <% if (user?.id == comment.creator) { %> %>
+         | <a href=<%="/comments/edit/" + comment.id%>>Edit Comment</a>
+         | <a href=<%="/comments/delete/" + comment.id%>>Delete Comment</a>
+        <% } %>
+  </span>
   <hr>
   <% }) %>
     <div>
       <% if (loggedIn) { %>
         <form action=<%="/posts/comment-create/" + post.id %> method="post">
-          <textarea name="newComment" id="newComment" placeholder="Add a comment..." rows="4"></textarea>
+          <textarea class="text" name="newComment" id="newComment" placeholder="Add a comment..." rows="4"></textarea>
           <button type="submit">Add Comment</button>
         </form>
         <% } %>
