@@ -27,7 +27,7 @@
           <a href=<%="/posts/deleteconfirm/" + post.id %>>Delete Post</a>
           <% } %></span></p>
   <p class="postDescription">
-    <%= post.description %> <br><br>
+    <%- post.description.replace(/(\r\n|\n|\r)/g, '<br>') %> <br><br>
       <strong>Link:</strong> <a href=<%=post.link %>><%= post.link %></a>
   </p>
 </div>
