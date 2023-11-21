@@ -45,6 +45,26 @@ const posts = {
     subgroup: "coding",
     timestamp: 1642611742010,
   },
+  103: {
+    id: 103,
+    title: "BBQ Chicken has just opened its new Metrotown location",
+    link: "https://bbqchickenca.com/",
+    description:
+      "BBQ Chicken has opened up a new location at #104-4418 Beresford Street at Metrotown. BBQ Chicken is known for serving up its signature chicken in over a dozen different flavours, including its Secret Sauced Chicken, Cheesling Chicken, and Gangnam Style Chicken, in addition to other Korean-influenced menu items, including Cheese Bul-Dak.",
+    creator: 3,
+    subgroup: "food",
+    timestamp: 1690840361000,
+  },
+  104: {
+    id: 104,
+    title: "RIP List: 56 notable Vancouver restaurant closures we saw in 2022",
+    link: "https://dailyhive.com/vancouver/vancouver-restaurant-closures-2022",
+    description:
+      "Some of these spots were revived with a new concept, while others sadly closed permanently.",
+    creator: 2,
+    subgroup: "food",
+    timestamp: 1671642000000,
+  },
 };
 
 const comments = {
@@ -62,6 +82,12 @@ const votes = [
   { user_id: 3, post_id: 101, value: +1 },
   { user_id: 4, post_id: 101, value: +1 },
   { user_id: 3, post_id: 102, value: -1 },
+  { user_id: 3, post_id: 103, value: +1 },
+  { user_id: 4, post_id: 103, value: +1 },
+  { user_id: 1, post_id: 104, value: -1 },
+  { user_id: 2, post_id: 104, value: -1 },
+  { user_id: 3, post_id: 104, value: -1 },
+  { user_id: 4, post_id: 104, value: -1 },
 ];
 
 function debug() {
@@ -107,7 +133,8 @@ function decoratePost(post: Post): DecoratedPost {
   const decoratedPost = {
     ...post,
     creator: users[post.creator as keyof typeof users],
-    votes: getVotesForPost(post.id).reduce((accumulated, curr) => accumulated + curr.value, 0),
+    votes: getVotesForPost(post.id),
+    score: getVotesForPost(post.id).reduce((accumulated, curr) => accumulated + curr.value, 0),
     comments: Object.values(comments)
       .filter((comment) => comment.post_id === post.id)
       .map((comment) => ({
@@ -127,11 +154,7 @@ function getPosts(n = 5, sub: string) {
   if (sub) {
     allPosts = allPosts.filter((post) => post.subgroup === sub);
   }
-  const allPostsDisplay = allPosts.map((post) => ({
-    ...post,
-    username: getUser(post.creator).uname,
-    votes: getVotesForPost(post.id).reduce((accumulated, curr) => accumulated + curr.value, 0),
-  }));
+  const allPostsDisplay = allPosts.map((post) => decoratePost(post));
   allPostsDisplay.sort((a, b) => b.timestamp - a.timestamp);
   return allPostsDisplay.slice(0, n);
 }

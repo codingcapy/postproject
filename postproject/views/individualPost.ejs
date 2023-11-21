@@ -19,7 +19,7 @@
   <p class="postTitle">
     <%= post.title %> <a href=<%= "/subs/show/" + post.subgroup %> class="subgroupLink">(subgroup.<%= post.subgroup %>)</a>
   </p>
-  <p><span class="votes">Score: <%= post.votes %></span> <span class="userDescription">| Posted by <strong>
+  <p><span class="votes">Score: <%= post.score %></span> <span class="userDescription">| Posted by <strong>
         <%= post.creator.uname %>
       </strong> on <%= timestamp.toString() %>
       <% if (canEdit) { %>

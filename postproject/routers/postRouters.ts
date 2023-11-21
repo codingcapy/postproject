@@ -3,12 +3,14 @@ import express from "express";
 import * as database from "../controller/postController";
 const router = express.Router();
 import { ensureAuthenticated } from "../middleware/checkAuth";
-import { canEditPost, isLoggedIn } from "../utils/helperFunctions";
+import { canEditPost, isLoggedIn, sortPostBy } from "../utils/helperFunctions";
 
 router.get("/", async (req, res) => {
-  const posts = await database.getPosts(20);
+  let posts = await database.getPosts(20);
   const user = await req.user;
-  res.render("posts", { posts, user });
+  let sortBy = (req.query.sortBy as string) || "date";
+  [posts, sortBy] = sortPostBy(posts, sortBy);
+  res.render("posts", { posts, user, sortBy });
 });
 
 router.get("/create", ensureAuthenticated, (req, res) => {
