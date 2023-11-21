@@ -39,27 +39,45 @@ router.get("/show/:postid", async (req, res) => {
   const post = await database.getPost(postId);
   const comments = await database.getCommentsByPostId(Number(postId));
   const user = await req.user;
-  const timestamp = new Date(post.timestamp);
-  const canEdit = canEditPost(post, user);
   const loggedIn = isLoggedIn(user);
 
-  res.render("individualPost", {
-    user,
-    post,
-    comments,
-    timestamp,
-    canEdit,
-    loggedIn,
-  });
+  if (post) {
+    const timestamp = new Date(post.timestamp);
+    const canEdit = canEditPost(post, user);
+
+    res.render("individualPost", {
+      user,
+      post,
+      comments,
+      timestamp,
+      canEdit,
+      loggedIn,
+    });
+  } else {
+    res.status(404);
+    res.render("individualPost", {
+      post,
+      loggedIn,
+    });
+  }
 });
 
 router.get("/edit/:postid", ensureAuthenticated, async (req, res) => {
   // ⭐ TODO - David
   const post = await database.getPost(Number(req.params.postid));
   const user = await req.user;
-  const canEdit = canEditPost(post, user);
-  if (canEdit) res.render("editPost", { post });
-  else res.redirect("/");
+  const loggedIn = isLoggedIn(user);
+  if (post) {
+    const canEdit = canEditPost(post, user);
+    if (canEdit) res.render("editPost", { post });
+    else res.redirect("/");
+  } else {
+    res.status(404);
+    res.render("individualPost", {
+      post,
+      loggedIn,
+    });
+  }
 });
 
 router.post("/edit/:postid", ensureAuthenticated, async (req, res) => {
@@ -69,27 +87,47 @@ router.post("/edit/:postid", ensureAuthenticated, async (req, res) => {
   const postId = Number(req.params.postid);
   if (await database.editPost(postId, user!.id, incomingEdits)) {
     res.status(200);
-    res.redirect("/posts/show/"+postId);
+    res.redirect("/posts/show/" + postId);
   } else {
     res.status(403);
-    res.redirect("/posts/show/"+postId);
+    res.redirect("/posts/show/" + postId);
   }
 });
 
 router.get("/deleteconfirm/:postid", ensureAuthenticated, async (req, res) => {
   const post = await database.getPost(Number(req.params.postid));
   const user = await req.user;
-  const canEdit = canEditPost(post, user);
-  if (canEdit) res.render("deletePosts", { post });
-  else res.redirect("/");
+  const loggedIn = isLoggedIn(user);
+  if (post) {
+    const canEdit = canEditPost(post, user);
+    if (canEdit) res.render("deletePosts", { post });
+    else res.redirect("/");
+  } else {
+    res.status(404);
+    res.render("individualPost", {
+      user,
+      post,
+      loggedIn,
+    });
+  }
   // ⭐ TODO
 });
 
 router.post("/delete/:postid", ensureAuthenticated, async (req, res) => {
   // ⭐ TODO
   const post = await database.getPost(Number(req.params.postid));
-  await database.deletePost(post.id);
-  res.redirect("/");
+  const user = await req.user;
+  const loggedIn = isLoggedIn(user);
+  if (post) {
+    await database.deletePost(post.id);
+    res.redirect("/");
+  } else {
+    res.status(404);
+    res.render("individualPost", {
+      post,
+      loggedIn,
+    });
+  }
 });
 
 router.post(

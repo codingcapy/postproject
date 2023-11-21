@@ -15,7 +15,7 @@ async function editPost(
     subgroup?: string;
   }
 ) {
-  if (userId != db.getPost(postId).creator.id) return false;
+  if (userId != db.getPost(postId)!.creator.id) return false;
   else {
     db.editPost(postId, changes);
     return true;

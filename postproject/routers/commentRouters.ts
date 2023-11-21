@@ -13,6 +13,7 @@ router.get("/show/:commentid", async (req, res) => {
     const canEdit = canEditComment(comment, user);
     res.render("individualComment", { comment, canEdit, loggedIn });
   } else {
+    res.status(404);
     res.render("individualComment", { comment, loggedIn });
   }
 });
@@ -29,7 +30,8 @@ router.get("/edit/:commentid", ensureAuthenticated, async (req, res) => {
     if (canEdit) res.render("editComment", { comment, loggedIn });
     else res.redirect("/posts/show/" + comment.post_id);
   } else {
-    res.redirect("/");
+    res.status(404);
+    res.render("individualComment", { comment, loggedIn });
   }
 });
 

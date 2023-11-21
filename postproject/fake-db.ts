@@ -136,8 +136,9 @@ function getPosts(n = 5, sub: string) {
   return allPostsDisplay.slice(0, n);
 }
 
-function getPost(id: number) {
-  return decoratePost(posts[id as keyof typeof posts]);
+function getPost(id: number): DecoratedPost | null {
+  if (id in posts) return decoratePost(posts[id as keyof typeof posts]);
+  else return null;
 }
 
 function addPost(
