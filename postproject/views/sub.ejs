@@ -42,9 +42,13 @@
                               <tr class="individualPost">
 
                                 <td class="individualVotes">
-                                  <a class="arrow up"></a><br>
-                                  <%= post.score %><br>
-                                    <a class="arrow down"></a>
+                                  <% if (user) { %>
+                                    <a class="arrow up"></a><br>
+                                    <% } %>
+                                      <%= post.score %><br>
+                                        <% if (user) { %>
+                                          <a class="arrow down"></a>
+                                          <% } %>
                                 </td>
                                 <td class="individualContents">
                                   <a href="/posts/show/<%=post.id%>">
