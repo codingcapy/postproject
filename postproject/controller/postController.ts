@@ -53,6 +53,10 @@ async function addComment(postId: number, userId: number, comment: string) {
   return db.addComment(postId, userId, comment);
 }
 
+async function addVote(user_id: number, post_id: number, value: any){
+  return db.addVote(user_id, post_id, value)
+}
+
 export {
   getPosts,
   createPost,
@@ -62,4 +66,5 @@ export {
   getSubs,
   getCommentsByPostId,
   addComment,
+  addVote
 };

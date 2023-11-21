@@ -40,6 +40,7 @@ declare global {
     user_id: number;
     post_id: number;
     value: number;
+    vote_id: number;
   }
 }
 

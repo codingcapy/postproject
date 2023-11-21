@@ -78,16 +78,16 @@ const comments = {
 };
 
 const votes = [
-  { user_id: 2, post_id: 101, value: +1 },
-  { user_id: 3, post_id: 101, value: +1 },
-  { user_id: 4, post_id: 101, value: +1 },
-  { user_id: 3, post_id: 102, value: -1 },
-  { user_id: 3, post_id: 103, value: +1 },
-  { user_id: 4, post_id: 103, value: +1 },
-  { user_id: 1, post_id: 104, value: -1 },
-  { user_id: 2, post_id: 104, value: -1 },
-  { user_id: 3, post_id: 104, value: -1 },
-  { user_id: 4, post_id: 104, value: -1 },
+  { user_id: 2, post_id: 101, value: +1, vote_id: 1 },
+  { user_id: 3, post_id: 101, value: +1, vote_id: 2 },
+  { user_id: 4, post_id: 101, value: +1, vote_id: 3 },
+  { user_id: 3, post_id: 102, value: -1, vote_id: 4 },
+  { user_id: 3, post_id: 103, value: +1, vote_id: 5 },
+  { user_id: 4, post_id: 103, value: +1, vote_id: 6 },
+  { user_id: 1, post_id: 104, value: -1, vote_id: 7 },
+  { user_id: 2, post_id: 104, value: -1, vote_id: 8 },
+  { user_id: 3, post_id: 104, value: -1, vote_id: 9 },
+  { user_id: 4, post_id: 104, value: -1, vote_id: 10 },
 ];
 
 function debug() {
@@ -127,6 +127,11 @@ function addUser(
 
 function getVotesForPost(post_id: number): Vote[] {
   return votes.filter((vote) => vote.post_id === post_id);
+}
+
+function addVote(user_id: number, post_id: number, value: any) {
+  const vote_id = votes.length === 0 ? 1 : votes[votes.length - 1].vote_id + 1
+  votes.push({ user_id, post_id, value, vote_id })
 }
 
 function decoratePost(post: Post): DecoratedPost {
@@ -276,6 +281,7 @@ export {
   deletePost,
   getSubs,
   addComment,
+  addVote,
   decoratePost,
   getCommentsByPostId,
   getComment,
