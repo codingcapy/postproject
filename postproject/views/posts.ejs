@@ -1,58 +1,63 @@
 <header>
   <a role="button" href="/posts">Home</a>
   <% if (!user) { %>
-  <a role="button" href="/auth/login">Login</a>
-  <a role="button" href="/users/">Signup</a>
-  <% } else { %>
-  <a role="button" href="/auth/logout">Logout</a>
-  <% } %>
+    <a role="button" href="/auth/login">Login</a>
+    <a role="button" href="/users/">Signup</a>
+    <% } else { %>
+      <a role="button" href="/auth/logout">Logout</a>
+      <% } %>
 </header>
 <h2>Hello, <%= user?.uname || "Visitor" %>
 </h2>
 <h3>Welcome to Sawwit, the face page of the internet.</h3>
 <div>
   <p>All Posts</p>
-  Sort by: 
-  <% if (sortBy === "top") { %>
+  Sort by:
+  <% if (sortBy==="top" ) { %>
     Top
-   <% } else { %>
-    <a href="/posts?sortBy=top">Top</a> 
-  <% } %>
-  <% if (sortBy === "hot") { %>
-    | Hot
-   <% } else { %>
-    | <a href="/posts?sortBy=hot">Hot</a> 
-  <% } %>
-  <% if (sortBy === "controversial") { %>
-    | Controversial
-   <% } else { %>
-    | <a href="/posts?sortBy=controversial">Controversial</a> 
-  <% } %>
-  <% if (sortBy === "date") { %>
-    | Date
-   <% } else { %>
-    | <a href="/posts?sortBy=date">Date</a>
-  <% } %>
-  <table>
-    <% posts.forEach(post=> { %>
-    <tr class="individualPost">
+    <% } else { %>
+      <a href="/posts?sortBy=top">Top</a>
+      <% } %>
+        <% if (sortBy==="hot" ) { %>
+          | Hot
+          <% } else { %>
+            | <a href="/posts?sortBy=hot">Hot</a>
+            <% } %>
+              <% if (sortBy==="controversial" ) { %>
+                | Controversial
+                <% } else { %>
+                  | <a href="/posts?sortBy=controversial">Controversial</a>
+                  <% } %>
+                    <% if (sortBy==="date" ) { %>
+                      | Date
+                      <% } else { %>
+                        | <a href="/posts?sortBy=date">Date</a>
+                        <% } %>
+                          <table>
+                            <% posts.forEach(post=> { %>
+                              <tr class="individualPost">
 
-      <td class="individualVotes">
-        <a class="arrow up"></a><br>
-        <%= post.score %><br>
-        <a class="arrow down"></a>
-      </td>
-      <td class="individualContents">
-        <a href="/posts/show/<%=post.id%>">
-          <%= post.title %>
-        </a> <a href=<%= "/subs/show/" + post.subgroup %> class="subgroupLink">(subgroup.<%= post.subgroup %>)</a><br>
-        <span class="userDescription">Posted by <strong>
-              <%= post.creator.uname %>
-            </strong> on <%= new Date(post.timestamp).toString() %>
-      </td>
-    </tr>
-    <% }) %>
-  </table>
+                                <td class="individualVotes">
+                                  <% if (user) { %>
+                                    <a class="arrow up"></a><br>
+                                    <% } %>
+                                      <%= post.score %><br>
+                                        <% if (user) { %>
+                                          <a class="arrow down"></a>
+                                          <% } %>
+                                </td>
+                                <td class="individualContents">
+                                  <a href="/posts/show/<%=post.id%>">
+                                    <%= post.title %>
+                                  </a> <a href=<%="/subs/show/" + post.subgroup %> class="subgroupLink">(subgroup.<%=
+                                      post.subgroup %>)</a><br>
+                                  <span class="userDescription">Posted by <strong>
+                                      <%= post.creator.uname %>
+                                    </strong> on <%= new Date(post.timestamp).toString() %>
+                                </td>
+                              </tr>
+                              <% }) %>
+                          </table>
 </div>
 
 <div>
@@ -60,8 +65,8 @@
 </div>
 
 <% if (user) { %>
-<!-- added by PK on 2023 11 7 8:40PM -->
-<div>
-  <a role="button" href="/posts/create">Create Post</a>
-</div>
-<% } %>
+  <!-- added by PK on 2023 11 7 8:40PM -->
+  <div>
+    <a role="button" href="/posts/create">Create Post</a>
+  </div>
+  <% } %>
