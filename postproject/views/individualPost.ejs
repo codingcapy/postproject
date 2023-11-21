@@ -8,18 +8,18 @@
       <a role="button" href="/users/">Signup</a>
       <% } %>
 </header>
-<div class="authOptions">
+<!-- <div class="authOptions">
   <a href="/">
     <h1>WebsiteName</h1>
   </a>
-</div>
+</div> -->
 <div>
   <!-- <p>Implement this page yourself. It is from individualPost.ejs</p> -->
   <!-- added by PK on 2023 11 10 3:53PM -->
   <p class="postTitle">
-    <%= post.title %> <span class="userDescription">(subgroup.<%= post.subgroup %>)</span>
+    <%= post.title %> <a href=<%= "/subs/show/" + post.subgroup %> class="subgroupLink">(subgroup.<%= post.subgroup %>)</a>
   </p>
-  <p><span class="votes">Score: <%= post.votes.length %></span> <span class="userDescription">| Posted by <strong>
+  <p><span class="votes">Score: <%= post.votes %></span> <span class="userDescription">| Posted by <strong>
         <%= post.creator.uname %>
       </strong> on <%= timestamp.toString() %>
         <% if (canEdit) { %>

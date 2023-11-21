@@ -31,7 +31,7 @@ declare global {
 
   interface DecoratedPost extends Post {
     creator: Express.user;
-    votes: Vote[];
+    votes: number;
     comments: DecoratedComment[];
   }
 

@@ -107,7 +107,7 @@ function decoratePost(post: Post): DecoratedPost {
   const decoratedPost = {
     ...post,
     creator: users[post.creator as keyof typeof users],
-    votes: getVotesForPost(post.id),
+    votes: getVotesForPost(post.id).reduce((accumulated, curr) => accumulated + curr.value, 0),
     comments: Object.values(comments)
       .filter((comment) => comment.post_id === post.id)
       .map((comment) => ({
@@ -130,6 +130,7 @@ function getPosts(n = 5, sub: string) {
   const allPostsDisplay = allPosts.map((post) => ({
     ...post,
     username: getUser(post.creator).uname,
+    votes: getVotesForPost(post.id).reduce((accumulated, curr) => accumulated + curr.value, 0),
   }));
   allPostsDisplay.sort((a, b) => b.timestamp - a.timestamp);
   return allPostsDisplay.slice(0, n);
