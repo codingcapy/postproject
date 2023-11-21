@@ -1,6 +1,7 @@
 // const { ensureAuthenticated } = require("../middleware/checkAuth");
 import express from "express";
 import * as database from "../controller/postController";
+import { sortPostBy } from "../utils/helperFunctions";
 const router = express.Router();
 
 router.get("/list", async (req, res) => {
@@ -10,8 +11,10 @@ router.get("/list", async (req, res) => {
 
 router.get("/show/:subname", async (req, res) => {
   const subName = await req.params.subname;
-  const posts = await database.getPosts(20, subName)
-  res.render("sub", {posts, subName});
+  let posts = await database.getPosts(20, subName)
+  let sortBy = (req.query.sortBy as string) || "date";
+  [posts, sortBy] = sortPostBy(posts, sortBy);
+  res.render("sub", {posts, subName, sortBy});
 });
 
 export default router;

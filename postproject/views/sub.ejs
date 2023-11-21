@@ -7,23 +7,45 @@
 </div>
 <div>
   <p>All Posts</p>
-  <% posts.forEach(post=> { %>
-    <table style="margin-bottom: 15px;">
-      <thead>
-        <tr>
-          <th>
-            <a href="/posts/show/<%=post.id%>" style="font-size: x-large">
-              <%= post.title %>
-            </a>
-            <p style="font-size: small; color: rgb(155, 155, 155); margin-bottom: 20px;">Posted by <strong>
-                <%= post.username %>
-              </strong></p>
-            <p style="font-size: medium; margin-bottom: 14px;">
-              Content : <%= post.description %>
-            </p>
-          </th>
-        </tr>
-      </thead>
-    </table>
+  Sort by: 
+  <% if (sortBy === "top") { %>
+    Top
+   <% } else { %>
+    <a href=<%= "/subs/show/" + subName + "?sortBy=top" %>>Top</a> 
+  <% } %>
+  <% if (sortBy === "hot") { %>
+    | Hot
+   <% } else { %>
+    | <a href=<%= "/subs/show/" + subName + "?sortBy=hot" %>>Hot</a> 
+  <% } %>
+  <% if (sortBy === "controversial") { %>
+    | Controversial
+   <% } else { %>
+    | <a href=<%= "/subs/show/" + subName + "?sortBy=controversial" %>>Controversial</a> 
+  <% } %>
+  <% if (sortBy === "date") { %>
+    | Date
+   <% } else { %>
+    | <a href=<%= "/subs/show/" + subName + "?sortBy=date" %>>Date</a>
+  <% } %>
+  <table>
+    <% posts.forEach(post=> { %>
+    <tr class="individualPost">
+
+      <td class="individualVotes">
+        <a class="arrow up"></a><br>
+        <%= post.score %><br>
+        <a class="arrow down"></a>
+      </td>
+      <td class="individualContents">
+        <a href="/posts/show/<%=post.id%>">
+          <%= post.title %>
+        </a> <a href=<%= "/subs/show/" + post.subgroup %> class="subgroupLink">(subgroup.<%= post.subgroup %>)</a><br>
+        <span class="userDescription">Posted by <strong>
+              <%= post.creator.uname %>
+            </strong> on <%= new Date(post.timestamp).toString() %>
+      </td>
+    </tr>
     <% }) %>
+  </table>
 </div>
