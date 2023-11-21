@@ -29,9 +29,11 @@ router.post("/create", ensureAuthenticated, async (req, res) => {
   const description = newPost.description;
   const subgroup = newPost.subgroup;
   await database.createPost(title, link, creator, description, subgroup);
-  const posts = await database.getPosts(20);
+  let posts = await database.getPosts(20);
   const user = await req.user;
-  res.status(200).render("posts", { posts, user });
+  let sortBy = (req.query.sortBy as string) || "date";
+  [posts, sortBy] = sortPostBy(posts, sortBy);
+  res.status(200).render("posts", { posts, user, sortBy });
 });
 
 router.get("/show/:postid", async (req, res) => {
@@ -154,5 +156,16 @@ router.post(
     }
   }
 );
+
+router.post("/votes/:postId", ensureAuthenticated, async (req, res) => {
+  const newVote = await req.body;
+  const user_id = await Promise.resolve(req.user).then((user) => user!.id);
+  const post_id = Number(req.params.postId);
+  const value = newVote.value;
+  await database.addVote(user_id, post_id, value);
+  const posts = await database.getPosts(20);
+  const user = await req.user
+  res.status(200).render("posts", { posts, user });
+})
 
 export default router;
