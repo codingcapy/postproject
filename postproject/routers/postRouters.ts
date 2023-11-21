@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
   res.render("posts", { posts, user, sortBy });
 });
 
-router.get("/create", ensureAuthenticated, (req, res) => {
+router.get("/create", ensureAuthenticated, async (req, res) => {
   res.render("createPosts");
 });
 
