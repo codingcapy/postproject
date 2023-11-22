@@ -1,3 +1,9 @@
+declare module "express-session" {
+  interface SessionData {
+    messages: string[];
+  }
+}
+
 declare global {
   namespace Express {
     interface User {
@@ -44,4 +50,4 @@ declare global {
   }
 }
 
-export { User, Comment, DecoratedComment, Post, DecoratedPost, Vote };
+export { User, Comment, DecoratedComment, Post, DecoratedPost, Vote, SessionData };

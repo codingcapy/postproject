@@ -99,14 +99,17 @@ function debug() {
   console.log("==== DB DEBUGING ====");
 }
 
-function getUser(id: number): Express.User {
+function getUser(id: number): Express.User  {
   return users[id as keyof typeof users];
 }
 
-function getUserByUsername(uname: string): Express.User {
+function getUserByUsername(uname: string): Express.User | null {
+  const user = Object.values(users).find((user) => user.uname === uname);
+  if (user)
   return getUser(
     Object.values(users).filter((user) => user.uname === uname)[0].id
   );
+  else return null;
 }
 
 // added by PK on 2023 11 19 9:17AM

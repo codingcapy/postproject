@@ -1,9 +1,11 @@
 import express from "express";
 import passport from "../middleware/passport";
+import { forwardAuthenticated } from "../middleware/checkAuth";
 const router = express.Router();
 
-router.get("/login", async (req, res) => {
-  res.render("login");
+router.get("/login", forwardAuthenticated, async (req, res) => {
+  const messages = req.session.messages || [];
+  res.render("login", { messages: messages.pop() });
 });
 
 router.post(
@@ -11,6 +13,7 @@ router.post(
   passport.authenticate("local", {
     successRedirect: "/posts",
     failureRedirect: "/auth/login",
+    failureMessage: true,
   })
 );
 
