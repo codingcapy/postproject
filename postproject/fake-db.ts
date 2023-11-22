@@ -105,10 +105,7 @@ function getUser(id: number): Express.User  {
 
 function getUserByUsername(uname: string): Express.User | null {
   const user = Object.values(users).find((user) => user.uname === uname);
-  if (user)
-  return getUser(
-    Object.values(users).filter((user) => user.uname === uname)[0].id
-  );
+  if (user) return getUser(user.id);
   else return null;
 }
 

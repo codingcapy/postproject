@@ -25,3 +25,11 @@ export const getUserById = async (id: number) => {
 export async function createUser(uname: string, password: string) {
   return db.addUser(uname, password)
 }
+
+export const getUserByUsername = async (uname: string) => {
+  let user = db.getUserByUsername(uname);
+  if (user) {
+    return user;
+  }
+  return null;
+}; 
