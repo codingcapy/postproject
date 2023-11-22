@@ -153,12 +153,15 @@ router.post(
   }
 );
 
-router.get("/vote/:postId/:value", ensureAuthenticated, async (req, res) => {
+router.post("/vote/", ensureAuthenticated, async (req, res) => {
   const user_id = await req.user;
-  const post_id = Number(req.params.postId);
-  const value = Number(req.params.value);
-  await database.addVote(Number(user_id!.id), post_id, value);
-  res.status(200).redirect("/posts");
+  const post_id = await req.body.postId;
+  const value = await req.body.voteValue;
+  console.log("/posts/vote/: " + user_id!.id + " " + post_id + " " + value);
+  await database.addVote(Number(user_id!.id), Number(post_id), Number(value));
+  res.setHeader('Content-Type', 'application/json');
+  res.status(200);
+  res.json({ message: 'Data received successfully' });
 });
 
 export default router;

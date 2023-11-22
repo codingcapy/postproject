@@ -44,19 +44,19 @@
                                   <% if (user) { %>
                                     <% let index = post.votes.findIndex(vote => vote.user_id === user.id) %>
                                     <a <% if (index !== -1 && post.votes[index].value === 1) { %>
-                                      class="arrow voted up"
+                                      class="arrow voted up" 
                                       <% } else { %>
-                                        class="arrow up"
-                                    <% } %> href=<%= "/posts/vote/" + post.id + "/1" %>></a><br>
+                                        class="arrow up" 
+                                    <% } %> href="/" vote-value=1 post-id=<%= post.id %> ></a><br>
                                     <% } %>
                                       <%= post.score %><br>
                                         <% if (user) { %>
                                           <% let index = post.votes.findIndex(vote => vote.user_id === user.id) %>
                                           <a <a <% if (index !== -1 && post.votes[index].value === -1) { %>
-                                            class="arrow voted down"
+                                            class="arrow voted down" 
                                             <% } else { %>
-                                              class="arrow down"
-                                          <% } %> href=<%= "/posts/vote/" + post.id + "/-1" %>></a>
+                                              class="arrow down" 
+                                          <% } %> href="/" vote-value=-1 post-id=<%= post.id %> ></a>
                                           <% } %>
                                 </td>
                                 <td class="individualContents">
@@ -84,4 +84,41 @@
   </div>
   <% } %>
 
-  
+  <script>
+    var voteLinks = document.querySelectorAll('.arrow');
+
+    // Attach click event listener to each link
+    voteLinks.forEach(function(link) {
+        link.addEventListener('click', function(event) {
+
+            // Get the data-post-type attribute value
+            var voteValue = link.getAttribute('vote-value');
+            var postId = link.getAttribute('post-id');
+            console.log("voteValue: " + voteValue + ", postId: " + postId);
+
+            // Make a POST request to the server
+            fetch('/posts/vote/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    voteValue: voteValue,
+                    postId: postId,
+                }),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+        });
+    });
+</script>
