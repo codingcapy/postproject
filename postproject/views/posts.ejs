@@ -42,11 +42,21 @@
 
                                 <td class="individualVotes">
                                   <% if (user) { %>
-                                    <a class="arrow up"></a><br>
+                                    <% let index = post.votes.findIndex(vote => vote.user_id === user.id) %>
+                                    <a <% if (index !== -1 && post.votes[index].value === 1) { %>
+                                      class="arrow voted up"
+                                      <% } else { %>
+                                        class="arrow up"
+                                    <% } %> href=<%= "/posts/vote/" + post.id + "/1" %>></a><br>
                                     <% } %>
                                       <%= post.score %><br>
                                         <% if (user) { %>
-                                          <a class="arrow down"></a>
+                                          <% let index = post.votes.findIndex(vote => vote.user_id === user.id) %>
+                                          <a <a <% if (index !== -1 && post.votes[index].value === -1) { %>
+                                            class="arrow voted down"
+                                            <% } else { %>
+                                              class="arrow down"
+                                          <% } %> href=<%= "/posts/vote/" + post.id + "/-1" %>></a>
                                           <% } %>
                                 </td>
                                 <td class="individualContents">
@@ -73,3 +83,5 @@
     <a role="button" href="/posts/create">Create Post</a>
   </div>
   <% } %>
+
+  

@@ -129,9 +129,19 @@ function getVotesForPost(post_id: number): Vote[] {
   return votes.filter((vote) => vote.post_id === post_id);
 }
 
-function addVote(user_id: number, post_id: number, value: any) {
-  const vote_id = votes.length === 0 ? 1 : votes[votes.length - 1].vote_id + 1
-  votes.push({ user_id, post_id, value, vote_id })
+function addVote(user_id: number, post_id: number, value: number) {
+  const postVotes = votes.filter((vote) => vote.post_id === post_id);
+  const userVote = postVotes.find(val => val.user_id === user_id);
+  if (userVote) {
+    const index = votes.findIndex(vote => vote.vote_id === userVote.vote_id);
+    if (value === userVote.value) votes[index].value = 0;
+    else votes[userVote.vote_id - 1].value = value;
+  }
+  else {
+    let vote_id = votes.length + 1;
+    let vote = {user_id, post_id, value, vote_id};
+    votes.push(vote);
+  }
 }
 
 function decoratePost(post: Post): DecoratedPost {

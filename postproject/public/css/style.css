@@ -54,6 +54,11 @@ header {
   -webkit-transform: rotate(45deg);
 }
 
+.voted {
+  border: solid orange;
+  border-width: 0 3px 3px 0;
+}
+
 .individualVotes {
   text-align: center;
   width: 1rem;

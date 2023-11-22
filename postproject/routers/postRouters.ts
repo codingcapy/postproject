@@ -153,15 +153,12 @@ router.post(
   }
 );
 
-router.post("/votes/:postId", ensureAuthenticated, async (req, res) => {
-  const newVote = await req.body;
-  const user_id = await Promise.resolve(req.user).then((user) => user!.id);
+router.get("/vote/:postId/:value", ensureAuthenticated, async (req, res) => {
+  const user_id = await req.user;
   const post_id = Number(req.params.postId);
-  const value = newVote.value;
-  await database.addVote(user_id, post_id, value);
-  const posts = await database.getPosts(20);
-  const user = await req.user;
-  res.status(200).render("posts", { posts, user });
+  const value = Number(req.params.value);
+  await database.addVote(Number(user_id!.id), post_id, value);
+  res.status(200).redirect("/posts");
 });
 
 export default router;
