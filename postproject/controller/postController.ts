@@ -53,7 +53,7 @@ async function addComment(postId: number, userId: number, comment: string) {
   return db.addComment(postId, userId, comment);
 }
 
-async function addVote(user_id: number, post_id: number, value: any){
+async function addVote(user_id: number, post_id: number, value: number){
   return db.addVote(user_id, post_id, value)
 }
 
