@@ -75,6 +75,13 @@ const comments = {
     description: "Actually I learned a lot :pepega:",
     timestamp: 1642691742010,
   },
+  9002: {
+    id: 9002,
+    post_id: 103,
+    creator: 3,
+    description: "The name ..... is the BBQ chicken-agen!",
+    timestamp: 1642691742010,
+  },
 };
 
 const votes = [
@@ -270,6 +277,10 @@ function editComment(
   }
 }
 
+function deleteComment(comment_id: number) {
+  delete comments[comment_id as keyof typeof comments];
+}
+
 export {
   debug,
   getUser,
@@ -286,5 +297,6 @@ export {
   getCommentsByPostId,
   getComment,
   addUser,
-  editComment
+  editComment,
+  deleteComment
 };

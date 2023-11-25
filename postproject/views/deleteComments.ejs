@@ -1,0 +1,21 @@
+<dialog open={true}>
+    <article>
+      <h3>Confirm your action!</h3>
+      <p>
+        Are you sure you want to delete the item? You will lose all related
+        data and this operation is irreversible:
+      </p>
+      <footer>
+        <form action=<%="/comments/delete/" + comment.id %> method="post">
+          <button type="button" onclick="goBack()" class="secondary">Cancel</button>
+          <button type="submit" class="secondary" style="margin-left: 0px">Delete</button>
+        </form>
+      </footer>
+    </article>
+  </dialog>
+  
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+  </script>

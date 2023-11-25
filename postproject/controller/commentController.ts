@@ -13,4 +13,8 @@ async function editComment(
   return db.editComment(commentId, changes);
 }
 
-export { getComment, editComment };
+async function deleteComment(id: number) {
+  return db.deleteComment(id)
+}
+
+export { getComment, editComment, deleteComment };

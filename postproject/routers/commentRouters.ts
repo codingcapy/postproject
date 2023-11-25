@@ -18,7 +18,7 @@ router.get("/show/:commentid", async (req, res) => {
   }
 });
 
-router.post("/reply/:commentid", ensureAuthenticated, async (req, res) => {});
+router.post("/reply/:commentid", ensureAuthenticated, async (req, res) => { });
 
 router.get("/edit/:commentid", ensureAuthenticated, async (req, res) => {
   const commentId = req.params.commentid;
@@ -47,9 +47,40 @@ router.post("/edit/:commentid", ensureAuthenticated, async (req, res) => {
 router.get(
   "/deleteconfirm/:commentid",
   ensureAuthenticated,
-  async (req, res) => {}
+  async (req, res) => {
+    const comment = await database.getComment(Number(req.params.commentid));
+    const user = await req.user;
+    const loggedIn = isLoggedIn(user);
+    if (comment) {
+      const canEdit = canEditComment(comment, user)
+      if (canEdit) res.render("deleteComments", { comment });
+      else res.redirect("/");
+    }
+    else {
+      res.status(404);
+      res.render("individualPost", {
+        user,
+        comment,
+        loggedIn,
+      });
+    }
+  }
 );
 
-router.post("/delete/:commentid", ensureAuthenticated, async (req, res) => {});
+router.post("/delete/:commentid", ensureAuthenticated, async (req, res) => { 
+  const comment = await database.getComment(Number(req.params.commentid));
+  const user = await req.user;
+  const loggedIn = isLoggedIn(user);
+  if (comment) {
+    await database.deleteComment(comment.id);
+    res.redirect("/");
+  } else {
+    res.status(404);
+    res.render("individualPost", {
+      comment,
+      loggedIn,
+    });
+  }
+});
 
 export default router;

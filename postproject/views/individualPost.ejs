@@ -46,7 +46,7 @@
           comment.id%>>Permalink</a>
         <% if (user?.id==comment.creator) { %> %>
           | <a href=<%="/comments/edit/" + comment.id%>>Edit Comment</a>
-          | <a href=<%="/comments/delete/" + comment.id%>>Delete Comment</a>
+          | <a href=<%="/comments/deleteconfirm/" + comment.id%>>Delete Comment</a>
           <% } %>
     </span>
     <hr>
