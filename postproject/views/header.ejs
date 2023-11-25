@@ -1,2 +1,18 @@
-
-
+<header class="header">
+  <nav>
+    <ul>
+      <li><a class="branding" href="/">Sawwit</a></li>
+    </ul>
+    <ul>
+      <li><a href="/posts">Home</a></li>
+      <li><a href="/subs/list">Subgroups</a></li>
+      <% if (!user) { %>
+      <li><a href="/auth/login">Login</a></li>
+      <li><a href="/users/">Signup</a></li>
+      <% } else { %>
+      <li><a href="/posts/create">Create Post</a></li>
+      <li><a href="/auth/logout">Logout</a></li>
+      <% } %>
+    </ul>
+  </nav>
+</header>

@@ -11,14 +11,14 @@ router.get("/show/:commentid", async (req, res) => {
   const loggedIn = isLoggedIn(user);
   if (comment) {
     const canEdit = canEditComment(comment, user);
-    res.render("individualComment", { comment, canEdit, loggedIn });
+    res.render("individualComment", { comment, canEdit, loggedIn, user });
   } else {
     res.status(404);
-    res.render("individualComment", { comment, loggedIn });
+    res.render("individualComment", { comment, loggedIn, user });
   }
 });
 
-router.post("/reply/:commentid", ensureAuthenticated, async (req, res) => { });
+router.post("/reply/:commentid", ensureAuthenticated, async (req, res) => {});
 
 router.get("/edit/:commentid", ensureAuthenticated, async (req, res) => {
   const commentId = req.params.commentid;
@@ -27,11 +27,11 @@ router.get("/edit/:commentid", ensureAuthenticated, async (req, res) => {
   const loggedIn = isLoggedIn(user);
   if (comment) {
     const canEdit = canEditComment(comment, user);
-    if (canEdit) res.render("editComment", { comment, loggedIn });
+    if (canEdit) res.render("editComment", { comment, loggedIn, user });
     else res.redirect("/posts/show/" + comment.post_id);
   } else {
     res.status(404);
-    res.render("individualComment", { comment, loggedIn });
+    res.render("individualComment", { comment, loggedIn, user });
   }
 });
 
@@ -52,11 +52,10 @@ router.get(
     const user = await req.user;
     const loggedIn = isLoggedIn(user);
     if (comment) {
-      const canEdit = canEditComment(comment, user)
+      const canEdit = canEditComment(comment, user);
       if (canEdit) res.render("deleteComments", { comment });
       else res.redirect("/");
-    }
-    else {
+    } else {
       res.status(404);
       res.render("individualPost", {
         user,
@@ -67,7 +66,7 @@ router.get(
   }
 );
 
-router.post("/delete/:commentid", ensureAuthenticated, async (req, res) => { 
+router.post("/delete/:commentid", ensureAuthenticated, async (req, res) => {
   const comment = await database.getComment(Number(req.params.commentid));
   const user = await req.user;
   const loggedIn = isLoggedIn(user);

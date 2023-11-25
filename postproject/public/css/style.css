@@ -70,3 +70,12 @@ header {
   filter: opacity(0.5);
   margin-bottom: 20px;
 }
+
+.branding {
+  font-size: xx-large;
+  font-weight: bolder;
+}
+
+.header {
+  padding: 0;
+}

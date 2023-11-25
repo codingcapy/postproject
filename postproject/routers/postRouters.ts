@@ -14,7 +14,8 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/create", ensureAuthenticated, async (req, res) => {
-  res.render("createPosts");
+  const user = await req.user;
+  res.render("createPosts", { user });
 });
 
 router.post("/create", ensureAuthenticated, async (req, res) => {
@@ -58,6 +59,7 @@ router.get("/show/:postid", async (req, res) => {
     res.render("individualPost", {
       post,
       loggedIn,
+      user,
     });
   }
 });
@@ -76,6 +78,7 @@ router.get("/edit/:postid", ensureAuthenticated, async (req, res) => {
     res.render("individualPost", {
       post,
       loggedIn,
+      user,
     });
   }
 });
@@ -126,6 +129,7 @@ router.post("/delete/:postid", ensureAuthenticated, async (req, res) => {
     res.render("individualPost", {
       post,
       loggedIn,
+      user,
     });
   }
 });
@@ -158,10 +162,12 @@ router.post("/vote/", ensureAuthenticated, async (req, res) => {
   const post_id = await req.body.postId;
   const value = await req.body.voteValue;
   await database.addVote(Number(user_id!.id), Number(post_id), Number(value));
-  res.setHeader('Content-Type', 'application/json');
+  res.setHeader("Content-Type", "application/json");
   res.status(200);
   const post = await database.getPost(post_id);
-  const userVote = post?.votes.find(val => val.user_id === Number(user_id!.id));
+  const userVote = post?.votes.find(
+    (val) => val.user_id === Number(user_id!.id)
+  );
   res.json({ score: post!.score, userVote: userVote });
 });
 

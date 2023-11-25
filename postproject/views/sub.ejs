@@ -1,15 +1,3 @@
-<header>
-  <a role="button" href="/">Sawwit</a>
-  <a role="button" href="/posts">Home</a>
-  <a role="button" href="/subs/list">Subgroups</a>
-  <% if (!user) { %>
-    <a role="button" href="/auth/login">Login</a>
-    <a role="button" href="/users/">Signup</a>
-    <% } else { %>
-      <a role="button" href="/posts/create">Create Post</a>
-      <a role="button" href="/auth/logout">Logout</a>
-      <% } %>
-</header>
 <div class="authOptions">
   <h1>Sub Posts : <%= subName %>
   </h1>
