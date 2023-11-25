@@ -22,7 +22,8 @@
   </div>
   <div>
     <form action=<%="/comments/edit/" + comment.id %> method="post">
-      <textarea class="text" name="description" id="description" placeholder="Add a comment..." rows="4"><%= comment.description %></textarea>
+      <textarea class="text" name="description" id="description" placeholder="Add a comment..."
+        rows="4"><%= comment.description %></textarea>
       <button type="submit">Update</button>
     </form>
   </div>

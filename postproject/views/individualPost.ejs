@@ -3,12 +3,12 @@
   <a role="button" href="/posts">Home</a>
   <a role="button" href="/subs/list">Subgroups</a>
   <% if (loggedIn) { %>
-  <a role="button" href="/posts/create">Create Post</a>
-  <a role="button" href="/auth/logout">Logout</a>
-  <% } else { %>
-  <a role="button" href="/auth/login">Login</a>
-  <a role="button" href="/users/">Signup</a>
-  <% } %>
+    <a role="button" href="/posts/create">Create Post</a>
+    <a role="button" href="/auth/logout">Logout</a>
+    <% } else { %>
+      <a role="button" href="/auth/login">Login</a>
+      <a role="button" href="/users/">Signup</a>
+      <% } %>
 </header>
 <!-- <div class="authOptions">
   <a href="/">
@@ -16,50 +16,54 @@
   </a>
 </div> -->
 <% if (post) { %>
-<div>
-  <!-- added by PK on 2023 11 10 3:53PM -->
-  <p class="postTitle">
-    <%= post.title %> <a href=<%= "/subs/show/" + post.subgroup %> class="subgroupLink">(subgroup.<%= post.subgroup %>)</a>
-  </p>
-  <p><span class="votes">Score: <%= post.score %></span> <span class="userDescription">| Posted by <strong>
-        <%= post.creator.uname %>
-      </strong> on <%= timestamp.toString() %>
-      <% if (canEdit) { %>
-      | <a href=<%="/posts/edit/" + post.id %>>Edit Post</a> |
-      <a href=<%="/posts/deleteconfirm/" + post.id %>>Delete Post</a>
-      <% } %></span></p>
-  <p class="postDescription">
-    <%- post.description.replace(/(\r\n|\n|\r)/g, '<br>') %> <br><br>
-    <strong>Link:</strong> <a href=<%=post.link %>><%= post.link %></a>
-  </p>
-</div>
+  <div>
+    <!-- added by PK on 2023 11 10 3:53PM -->
+    <p class="postTitle">
+      <%= post.title %> <a href=<%="/subs/show/" + post.subgroup %> class="subgroupLink">(subgroup.<%= post.subgroup %>
+            )</a>
+    </p>
+    <p><span class="votes">Score: <%= post.score %></span> <span class="userDescription">| Posted by <strong>
+          <%= post.creator.uname %>
+        </strong> on <%= timestamp.toString() %>
+          <% if (canEdit) { %>
+            | <a href=<%="/posts/edit/" + post.id %>>Edit Post</a> |
+            <a href=<%="/posts/deleteconfirm/" + post.id %>>Delete Post</a>
+            <% } %></span></p>
+    <p class="postDescription">
+      <%- post.description.replace(/(\r\n|\n|\r)/g, '<br>' ) %> <br><br>
+        <strong>Link:</strong> <a href=<%=post.link %>><%= post.link %></a>
+    </p>
+  </div>
 
-<b>Comments</b>
-<hr>
-<% comments.forEach(comment=> { %>
-<span class="text"><%- comment.description.replace(/(\r\n|\n|\r)/g, '<br>')%></span><br>
-<span class="userDescription">
-  Commented by <strong><%= comment.username %></strong> on <%= new Date(comment.timestamp).toString() %> | <a href=<%="/comments/show/" + comment.id%>>Permalink</a>
-  <% if (user?.id == comment.creator) { %> %>
-  | <a href=<%="/comments/edit/" + comment.id%>>Edit Comment</a>
-  | <a href=<%="/comments/delete/" + comment.id%>>Delete Comment</a>
-  <% } %>
-</span>
-<hr>
-<% }) %>
-<div>
-  <% if (loggedIn) { %>
-  <form action=<%="/posts/comment-create/" + post.id %> method="post">
-    <textarea class="text" name="newComment" id="newComment" placeholder="Add a comment..." rows="4"></textarea>
-    <button type="submit">Add Comment</button>
-  </form>
-  <% } %>
-</div>
-<% } else { %>
-<div>
-  <p>Post does not exist.</p>
-</div>
-<div>
-  <a role="button" href=<%="/" %>>Back to Home</a>
-</div>
-<% } %>
+  <b>Comments</b>
+  <hr>
+  <% comments.forEach(comment=> { %>
+    <span class="text"><%- comment.description.replace(/(\r\n|\n|\r)/g, '<br>' )%></span><br>
+    <span class="userDescription">
+      Commented by <strong>
+        <%= comment.username %>
+      </strong> on <%= new Date(comment.timestamp).toString() %> | <a href=<%="/comments/show/" +
+          comment.id%>>Permalink</a>
+        <% if (user?.id==comment.creator) { %> %>
+          | <a href=<%="/comments/edit/" + comment.id%>>Edit Comment</a>
+          | <a href=<%="/comments/delete/" + comment.id%>>Delete Comment</a>
+          <% } %>
+    </span>
+    <hr>
+    <% }) %>
+      <div>
+        <% if (loggedIn) { %>
+          <form action=<%="/posts/comment-create/" + post.id %> method="post">
+            <textarea class="text" name="newComment" id="newComment" placeholder="Add a comment..." rows="4"></textarea>
+            <button type="submit">Add Comment</button>
+          </form>
+          <% } %>
+      </div>
+      <% } else { %>
+        <div>
+          <p>Post does not exist.</p>
+        </div>
+        <div>
+          <a role="button" href=<%="/" %>>Back to Home</a>
+        </div>
+        <% } %>
