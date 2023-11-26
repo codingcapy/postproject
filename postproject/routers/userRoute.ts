@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   const user = await req.user;
-  res.render("signup", { messages: "", user });
+  res.render("signup", { messages: "", user, active: "signup", });
 });
 
 router.post("/", async (req, res) => {
@@ -18,12 +18,14 @@ router.post("/", async (req, res) => {
     res.render("signup", {
       messages: "Username already exists. Please try another username.",
       user,
+      active: "signup",
     });
   else {
     await database.createUser(uname, password);
     res.render("login", {
       messages: "Successfully signed up. Please log in.",
       user,
+      active: "signup",
     });
   }
 });

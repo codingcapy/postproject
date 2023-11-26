@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/list", async (req, res) => {
   const subs = (await database.getSubs()).sort();
   const user = await req.user;
-  res.render("subs", {subs, user});
+  res.render("subs", {subs, user, active: "subs",});
 });
 
 router.get("/show/:subname", async (req, res) => {
@@ -16,7 +16,7 @@ router.get("/show/:subname", async (req, res) => {
   let sortBy = (req.query.sortBy as string) || "date";
   [posts, sortBy] = sortPostBy(posts, sortBy);
   const user = await req.user;
-  res.render("sub", {posts, subName, sortBy, user});
+  res.render("sub", {posts, subName, sortBy, user, active: "subs",});
 });
 
 export default router;

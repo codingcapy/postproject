@@ -6,7 +6,7 @@ const router = express.Router();
 router.get("/login", forwardAuthenticated, async (req, res) => {
   const messages = req.session.messages || [];
   const user = await req.user;
-  res.render("login", { messages: messages.pop(), user });
+  res.render("login", { messages: messages.pop(), user, active: "login", });
 });
 
 router.post(

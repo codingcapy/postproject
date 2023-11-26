@@ -90,3 +90,8 @@ header {
   height: 43px;
   margin-right: 10px;
 }
+
+.active {
+  text-decoration: underline;
+  font-weight: 600;
+}

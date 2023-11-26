@@ -10,12 +10,12 @@ router.get("/", async (req, res) => {
   const user = await req.user;
   let sortBy = (req.query.sortBy as string) || "date";
   [posts, sortBy] = sortPostBy(posts, sortBy);
-  res.render("posts", { posts, user, sortBy });
+  res.render("posts", { posts, user, sortBy, active: "posts" });
 });
 
 router.get("/create", ensureAuthenticated, async (req, res) => {
   const user = await req.user;
-  res.render("createPosts", { user });
+  res.render("createPosts", { user, active: "create" });
 });
 
 router.post("/create", ensureAuthenticated, async (req, res) => {
@@ -53,6 +53,7 @@ router.get("/show/:postid", async (req, res) => {
       timestamp,
       canEdit,
       loggedIn,
+      active: "none",
     });
   } else {
     res.status(404);
@@ -60,6 +61,7 @@ router.get("/show/:postid", async (req, res) => {
       post,
       loggedIn,
       user,
+      active: "none",
     });
   }
 });
@@ -79,6 +81,7 @@ router.get("/edit/:postid", ensureAuthenticated, async (req, res) => {
       post,
       loggedIn,
       user,
+      active: "none",
     });
   }
 });
@@ -111,6 +114,7 @@ router.get("/deleteconfirm/:postid", ensureAuthenticated, async (req, res) => {
       user,
       post,
       loggedIn,
+      active: "none",
     });
   }
   // ⭐ TODO
@@ -130,6 +134,7 @@ router.post("/delete/:postid", ensureAuthenticated, async (req, res) => {
       post,
       loggedIn,
       user,
+      active: "none",
     });
   }
 });

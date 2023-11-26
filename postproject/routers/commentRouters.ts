@@ -11,10 +11,10 @@ router.get("/show/:commentid", async (req, res) => {
   const loggedIn = isLoggedIn(user);
   if (comment) {
     const canEdit = canEditComment(comment, user);
-    res.render("individualComment", { comment, canEdit, loggedIn, user });
+    res.render("individualComment", { comment, canEdit, loggedIn, user, active: "none", });
   } else {
     res.status(404);
-    res.render("individualComment", { comment, loggedIn, user });
+    res.render("individualComment", { comment, loggedIn, user, active: "none", });
   }
 });
 
@@ -27,11 +27,11 @@ router.get("/edit/:commentid", ensureAuthenticated, async (req, res) => {
   const loggedIn = isLoggedIn(user);
   if (comment) {
     const canEdit = canEditComment(comment, user);
-    if (canEdit) res.render("editComment", { comment, loggedIn, user });
+    if (canEdit) res.render("editComment", { comment, loggedIn, user, active: "none", });
     else res.redirect("/posts/show/" + comment.post_id);
   } else {
     res.status(404);
-    res.render("individualComment", { comment, loggedIn, user });
+    res.render("individualComment", { comment, loggedIn, user, active: "none", });
   }
 });
 
@@ -61,6 +61,7 @@ router.get(
         user,
         comment,
         loggedIn,
+        active: "none",
       });
     }
   }
@@ -78,6 +79,7 @@ router.post("/delete/:commentid", ensureAuthenticated, async (req, res) => {
     res.render("individualPost", {
       comment,
       loggedIn,
+      active: "none",
     });
   }
 });
