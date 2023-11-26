@@ -7,12 +7,16 @@
         <% if (user) { %>
         <% let index = post.votes.findIndex(vote => vote.user_id === user.id) %>
         <a <% if (index !== -1 && post.votes[index].value === 1) { %> class="arrow voted up" <% } else { %> class="arrow up" <% } %> vote-value=1 id=<%= "up" + post.id %> post-id=<%= post.id %>></a><br>
-        <% } %>
+        <% } else { %>
+          <span class="arrow up disabled"></span>
+          <% } %>
         <span id=<%= "score"+post.id %>><%= post.score %></span><br>
         <% if (user) { %>
         <% let index = post.votes.findIndex(vote => vote.user_id === user.id) %>
         <a <a <% if (index !== -1 && post.votes[index].value === -1) { %> class="arrow voted down" <% } else { %> class="arrow down" <% } %> vote-value=-1 id=<%= "down" + post.id %> post-id=<%= post.id %>></a>
-        <% } %>
+        <% } else { %>
+          <span class="arrow down disabled"></span>
+          <% } %>
       </td>
       <td class="individualContents">
         <p class="postTitle">

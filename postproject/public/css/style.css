@@ -60,6 +60,12 @@ header {
   border-width: 0 3px 3px 0;
 }
 
+.disabled {
+  border: solid lightgray;
+  border-width: 0 3px 3px 0;
+  cursor: default;
+}
+
 .individualVotes {
   text-align: center;
   width: 1rem;

@@ -1,10 +1,10 @@
 <div class="box">
-    <h1>Sign Up</h1>
+    <div style="text-align: center;"><h1>Sign up and start posting on Sawwit!</h1></div>
     <p style="color: red; font-weight: 700"><%= messages %></p>
     <form action="/users/" method="post">
         <input type="text" name="uname" id="uname" placeholder="Username" />
         <input type="password" name="password" id="password" placeholder="Password" />
         <button type="submit">Signup</button>
     </form>
-    <a role="button" href="/auth/login">Login</a>
+    <div style="text-align: center;">Already have an account? <a href="/auth/login">Log in here</a></div>
 </div>

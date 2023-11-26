@@ -1,9 +1,8 @@
-<div class="authOptions">
-  <h1>Sub Posts : <%= subName %>
-  </h1>
-</div>
+<h2>Hello, <%= user?.uname || "Visitor" %>
+</h2>
+<h3>Welcome to Sawwit, the face page of the internet.</h3>
 <div>
-  <p>All Posts</p>
+  <p>Showing posts in subgroup: <%= subName %></p>
   Sort by:
   <% if (sortBy==="top" ) { %>
     Top
@@ -37,7 +36,9 @@
                                       <% } else { %>
                                         class="arrow up" 
                                     <% } %> vote-value=1 id=<%= "up" + post.id %> post-id=<%= post.id %> ></a><br>
-                                    <% } %>
+                                    <% } else { %>
+                                      <span class="arrow up disabled"></span>
+                                      <% } %>
                                       <span id=<%= "score"+post.id %>><%= post.score %></span><br>
                                         <% if (user) { %>
                                           <% let index = post.votes.findIndex(vote => vote.user_id === user.id) %>
@@ -46,7 +47,9 @@
                                             <% } else { %>
                                               class="arrow down" 
                                           <% } %>  vote-value=-1 id=<%= "down" + post.id %> post-id=<%= post.id %> ></a>
-                                          <% } %>
+                                          <% } else { %>
+                                            <span class="arrow down disabled"></span>
+                                            <% } %>
                                 </td>
                                 <td class="individualContents">
                                   <a href="/posts/show/<%=post.id%>">
