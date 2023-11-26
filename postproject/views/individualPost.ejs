@@ -1,57 +1,115 @@
-<!-- <div class="authOptions">
-  <a href="/">
-    <h1>WebsiteName</h1>
-  </a>
-</div> -->
 <% if (post) { %>
-  <div>
-    <!-- added by PK on 2023 11 10 3:53PM -->
-    <p class="postTitle">
-      <%= post.title %> <a href=<%="/subs/show/" + post.subgroup %> class="subgroupLink">(subgroup.<%= post.subgroup %>
+<div>
+  <!-- added by PK on 2023 11 10 3:53PM -->
+  <table>
+    <tr class="individualPost">
+      <td class="individualVotes" id=<%= post.id %>>
+        <% if (user) { %>
+        <% let index = post.votes.findIndex(vote => vote.user_id === user.id) %>
+        <a <% if (index !== -1 && post.votes[index].value === 1) { %> class="arrow voted up" <% } else { %> class="arrow up" <% } %> vote-value=1 id=<%= "up" + post.id %> post-id=<%= post.id %>></a><br>
+        <% } %>
+        <span id=<%= "score"+post.id %>><%= post.score %></span><br>
+        <% if (user) { %>
+        <% let index = post.votes.findIndex(vote => vote.user_id === user.id) %>
+        <a <a <% if (index !== -1 && post.votes[index].value === -1) { %> class="arrow voted down" <% } else { %> class="arrow down" <% } %> vote-value=-1 id=<%= "down" + post.id %> post-id=<%= post.id %>></a>
+        <% } %>
+      </td>
+      <td class="individualContents">
+        <p class="postTitle">
+          <%= post.title %> <a href=<%="/subs/show/" + post.subgroup %> class="subgroupLink">(subgroup.<%= post.subgroup %>
             )</a>
-    </p>
-    <p><span class="votes">Score: <%= post.score %></span> <span class="userDescription">| Posted by <strong>
-          <%= post.creator.uname %>
-        </strong> on <%= timestamp.toString() %>
-          <% if (canEdit) { %>
+        </p>
+        <span class="userDescription">Posted by <strong>
+              <%= post.creator.uname %>
+            </strong> on <%= timestamp.toString() %>
+            <% if (canEdit) { %>
             | <a href=<%="/posts/edit/" + post.id %>>Edit Post</a> |
             <a href=<%="/posts/deleteconfirm/" + post.id %>>Delete Post</a>
-            <% } %></span></p>
-    <p class="postDescription">
-      <%- post.description.replace(/(\r\n|\n|\r)/g, '<br>' ) %> <br><br>
-        <strong>Link:</strong> <a href=<%=post.link %>><%= post.link %></a>
-    </p>
-  </div>
+            <% } %></span>
+      </td>
+    </tr>
+  </table>
+  <p class="postDescription">
+    <%- post.description.replace(/(\r\n|\n|\r)/g, '<br>' ) %> <br><br>
+    <strong>Link:</strong> <a href=<%=post.link %>><%= post.link %></a>
+  </p>
+</div>
 
-  <b>Comments</b>
-  <hr>
-  <% comments.forEach(comment=> { %>
-    <span class="text"><%- comment.description.replace(/(\r\n|\n|\r)/g, '<br>' )%></span><br>
-    <span class="userDescription">
-      Commented by <strong>
-        <%= comment.username %>
-      </strong> on <%= new Date(comment.timestamp).toString() %> | <a href=<%="/comments/show/" +
+<b>Comments</b>
+<hr>
+<% comments.forEach(comment=> { %>
+<span class="text"><%- comment.description.replace(/(\r\n|\n|\r)/g, '<br>' )%></span><br>
+<span class="userDescription">
+  Commented by <strong>
+    <%= comment.username %>
+  </strong> on <%= new Date(comment.timestamp).toString() %> | <a href=<%="/comments/show/" +
           comment.id%>>Permalink</a>
-        <% if (user?.id==comment.creator) { %> %>
-          | <a href=<%="/comments/edit/" + comment.id%>>Edit Comment</a>
-          | <a href=<%="/comments/deleteconfirm/" + comment.id%>>Delete Comment</a>
-          <% } %>
-    </span>
-    <hr>
-    <% }) %>
-      <div>
-        <% if (loggedIn) { %>
-          <form action=<%="/posts/comment-create/" + post.id %> method="post">
-            <textarea class="text" name="newComment" id="newComment" placeholder="Add a comment..." rows="4"></textarea>
-            <button type="submit">Add Comment</button>
-          </form>
-          <% } %>
-      </div>
-      <% } else { %>
-        <div>
-          <p>Post does not exist.</p>
-        </div>
-        <div>
-          <a role="button" href=<%="/" %>>Back to Home</a>
-        </div>
-        <% } %>
+  <% if (user?.id==comment.creator) { %> %>
+  | <a href=<%="/comments/edit/" + comment.id%>>Edit Comment</a>
+  | <a href=<%="/comments/deleteconfirm/" + comment.id%>>Delete Comment</a>
+  <% } %>
+</span>
+<hr>
+<% }) %>
+<div>
+  <% if (loggedIn) { %>
+  <form action=<%="/posts/comment-create/" + post.id %> method="post">
+    <textarea class="text" name="newComment" id="newComment" placeholder="Add a comment..." rows="4"></textarea>
+    <button type="submit">Add Comment</button>
+  </form>
+  <% } %>
+</div>
+<% } else { %>
+<div>
+  <p>Post does not exist.</p>
+</div>
+<div>
+  <a role="button" href=<%="/" %>>Back to Home</a>
+</div>
+<% } %>
+
+<script>
+  var voteLinks = document.querySelectorAll('.arrow');
+
+  voteLinks.forEach(function(link) {
+    link.addEventListener('click', function(event) {
+      event.preventDefault();
+
+      var voteValue = link.getAttribute('vote-value');
+      var postId = link.getAttribute('post-id');
+
+      fetch('/posts/vote/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            voteValue: voteValue,
+            postId: postId,
+          }),
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          document.getElementById("score" + postId).innerHTML = `${data.score}`;
+          if (data.userVote.value == 1) {
+            document.getElementById("up" + postId).className = "arrow voted up";
+            document.getElementById("down" + postId).className = "arrow down";
+          } else if (data.userVote.value == -1) {
+            document.getElementById("up" + postId).className = "arrow up";
+            document.getElementById("down" + postId).className = "arrow voted down";
+          } else {
+            document.getElementById("up" + postId).className = "arrow up";
+            document.getElementById("down" + postId).className = "arrow down";
+          }
+        })
+        .catch(error => {
+          console.error('There was a problem with the fetch operation:', error);
+        });
+    });
+  });
+</script>

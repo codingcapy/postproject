@@ -79,6 +79,7 @@ router.post("/delete/:commentid", ensureAuthenticated, async (req, res) => {
     res.render("individualPost", {
       comment,
       loggedIn,
+      user,
       active: "none",
     });
   }
