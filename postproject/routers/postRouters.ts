@@ -73,7 +73,7 @@ router.get("/edit/:postid", ensureAuthenticated, async (req, res) => {
   const loggedIn = isLoggedIn(user);
   if (post) {
     const canEdit = canEditPost(post, user);
-    if (canEdit) res.render("editPost", { post });
+    if (canEdit) res.render("editPost", { post, user, active:"none" });
     else res.redirect("/");
   } else {
     res.status(404);
@@ -106,7 +106,7 @@ router.get("/deleteconfirm/:postid", ensureAuthenticated, async (req, res) => {
   const loggedIn = isLoggedIn(user);
   if (post) {
     const canEdit = canEditPost(post, user);
-    if (canEdit) res.render("deletePosts", { post });
+    if (canEdit) res.render("deletePosts", { post, user, active: "none", });
     else res.redirect("/");
   } else {
     res.status(404);
