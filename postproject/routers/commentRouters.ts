@@ -53,7 +53,7 @@ router.get(
     const loggedIn = isLoggedIn(user);
     if (comment) {
       const canEdit = canEditComment(comment, user);
-      if (canEdit) res.render("deleteComments", { comment });
+      if (canEdit) res.render("deleteComments", { comment, user, active: "none", });
       else res.redirect("/");
     } else {
       res.status(404);

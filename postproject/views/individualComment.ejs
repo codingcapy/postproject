@@ -1,41 +1,36 @@
 <main>
 
-  <div class="authOptions">
-    <a href="/">
-      <h1>WebsiteName</h1>
-    </a>
 
-  </div>
 
   <% if (comment) { %>
-    <div>
-      <a role="button" href=<%="/posts/show/" + comment.post_id %>>Back to Post</a>
-    </div>
+  <div>
+    <a role="button" href=<%="/posts/show/" + comment.post_id %>>Back to Post</a>
+  </div>
 
-    <div>
-      <p>Commented by <strong>
-          <%= comment.username %>
-        </strong> on <%= new Date(comment.timestamp).toString() %>
-      </p>
-      <p>
-        <%= comment.description %>
-      </p>
-    </div>
+  <div>
+    <p>Commented by <strong>
+        <%= comment.username %>
+      </strong> on <%= new Date(comment.timestamp).toString() %>
+    </p>
+    <p>
+      <%= comment.description %>
+    </p>
+  </div>
 
-    <div>
-      <% if (canEdit) { %>
-        <a role="button" href=<%="/comments/edit/" + comment.id %>>Edit Comment</a>
-        <a role="button" href=<%="/comments/deleteconfirm/" + comment.id %>>Delete Comment</a>
-        <% } %>
-    </div>
-    <% } else { %>
-      <div>
-        <p>Comment does not exist.</p>
-      </div>
-      <div>
-        <a role="button" href=<%="/" %>>Back to Home</a>
-      </div>
-      <% } %>
+  <div>
+    <% if (canEdit) { %>
+    <a role="button" href=<%="/comments/edit/" + comment.id %>>Edit Comment</a>
+    <a role="button" href=<%="/comments/deleteconfirm/" + comment.id %>>Delete Comment</a>
+    <% } %>
+  </div>
+  <% } else { %>
+  <div>
+    <p>Comment does not exist.</p>
+  </div>
+  <div>
+    <a role="button" href=<%="/" %>>Back to Home</a>
+  </div>
+  <% } %>
 
 
 
