@@ -29,13 +29,23 @@
                             <% posts.forEach(post=> { %>
                               <tr class="individualPost">
 
-                                <td class="individualVotes">
+                                <td class="individualVotes" id=<%= post.id %>>
                                   <% if (user) { %>
-                                    <a class="arrow up"></a><br>
+                                    <% let index = post.votes.findIndex(vote => vote.user_id === user.id) %>
+                                    <a <% if (index !== -1 && post.votes[index].value === 1) { %>
+                                      class="arrow voted up" 
+                                      <% } else { %>
+                                        class="arrow up" 
+                                    <% } %> vote-value=1 id=<%= "up" + post.id %> post-id=<%= post.id %> ></a><br>
                                     <% } %>
-                                      <%= post.score %><br>
+                                      <span id=<%= "score"+post.id %>><%= post.score %></span><br>
                                         <% if (user) { %>
-                                          <a class="arrow down"></a>
+                                          <% let index = post.votes.findIndex(vote => vote.user_id === user.id) %>
+                                          <a <a <% if (index !== -1 && post.votes[index].value === -1) { %>
+                                            class="arrow voted down" 
+                                            <% } else { %>
+                                              class="arrow down" 
+                                          <% } %>  vote-value=-1 id=<%= "down" + post.id %> post-id=<%= post.id %> ></a>
                                           <% } %>
                                 </td>
                                 <td class="individualContents">
@@ -51,3 +61,51 @@
                               <% }) %>
                           </table>
 </div>
+
+<script>
+  var voteLinks = document.querySelectorAll('.arrow');
+
+  voteLinks.forEach(function(link) {
+      link.addEventListener('click', function(event) {
+        event.preventDefault();
+
+          var voteValue = link.getAttribute('vote-value');
+          var postId = link.getAttribute('post-id');
+
+          fetch('/posts/vote/', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                  voteValue: voteValue,
+                  postId: postId,
+              }),
+          })
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error('Network response was not ok');
+              }
+              return response.json();
+          })
+          .then(data => {
+            document.getElementById("score"+postId).innerHTML = `${data.score}`;
+            if (data.userVote.value == 1) {
+              document.getElementById("up"+postId).className = "arrow voted up";
+              document.getElementById("down"+postId).className = "arrow down";
+            }
+            else if (data.userVote.value == -1) {
+              document.getElementById("up"+postId).className = "arrow up";
+              document.getElementById("down"+postId).className = "arrow voted down";
+            }
+            else {
+              document.getElementById("up"+postId).className = "arrow up";
+              document.getElementById("down"+postId).className = "arrow down";
+            }
+          })
+          .catch(error => {
+              console.error('There was a problem with the fetch operation:', error);
+          });
+      });
+  });
+</script>

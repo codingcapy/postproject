@@ -79,3 +79,14 @@ header {
 .header {
   padding: 0;
 }
+
+.logo {
+  display: flex;
+  align-items: end;
+}
+
+.icon {
+  width: 43px;
+  height: 43px;
+  margin-right: 10px;
+}
