@@ -233,6 +233,12 @@ function editPost(
 
 function deletePost(post_id: number) {
   delete posts[post_id as keyof typeof posts];
+  for (const commentId in comments ) {
+      if (comments[commentId as unknown as keyof typeof comments].post_id === post_id) {
+        delete comments[commentId as unknown as keyof typeof comments];
+      }
+  }
+  console.log(comments)
 }
 
 function getSubs() {
