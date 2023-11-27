@@ -73,7 +73,7 @@ router.get("/edit/:postid", ensureAuthenticated, async (req, res) => {
   const loggedIn = isLoggedIn(user);
   if (post) {
     const canEdit = canEditPost(post, user);
-    if (canEdit) res.render("editPost", { post, user, active:"none" });
+    if (canEdit) res.render("editPost", { post, user, active: "none" });
     else res.redirect("/");
   } else {
     res.status(404);
@@ -106,7 +106,7 @@ router.get("/deleteconfirm/:postid", ensureAuthenticated, async (req, res) => {
   const loggedIn = isLoggedIn(user);
   if (post) {
     const canEdit = canEditPost(post, user);
-    if (canEdit) res.render("deletePosts", { post, user, active: "none", });
+    if (canEdit) res.render("deletePosts", { post, user, active: "none" });
     else res.redirect("/");
   } else {
     res.status(404);
@@ -123,11 +123,12 @@ router.get("/deleteconfirm/:postid", ensureAuthenticated, async (req, res) => {
 router.post("/delete/:postid", ensureAuthenticated, async (req, res) => {
   // ⭐ TODO
   const post = await database.getPost(Number(req.params.postid));
+  const postSub = post?.subgroup;
   const user = await req.user;
   const loggedIn = isLoggedIn(user);
   if (post) {
     await database.deletePost(post.id);
-    res.redirect("/");
+    res.redirect("/subs/show/" + postSub);
   } else {
     res.status(404);
     res.render("individualPost", {
