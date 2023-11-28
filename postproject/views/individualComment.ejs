@@ -23,6 +23,29 @@
     <a role="button" href=<%="/comments/deleteconfirm/" + comment.id %>>Delete Comment</a>
     <% } %>
   </div>
+<b>Replies</b>
+<hr>
+<% replies.forEach(reply=> { %>
+<span class="text"><%- reply.description.replace(/(\r\n|\n|\r)/g, '<br>' )%></span><br>
+<span class="userDescription">
+  Replied by <strong>
+    <%= reply.username %>
+  </strong> on <%= new Date(reply.timestamp).toString() %> 
+  <% if (reply.creator == user?.id || false) { %>
+    | <a href=<%="/comments/reply/edit/" + reply.id %>>Edit Reply</a> |
+    <a href=<%="/comments/reply/deleteconfirm/" + reply.id %>>Delete Reply</a>
+    <% } %>
+</span>
+<hr>
+<% }) %>
+<div>
+  <% if (loggedIn) { %>
+  <form action=<%="/comments/reply/" + comment.id %> method="post">
+    <textarea class="text" name="newReply" id="newReply" placeholder="Add a reply..." rows="4"></textarea>
+    <button type="submit">Add reply</button>
+  </form>
+  <% } %>
+</div>
   <% } else { %>
   <div>
     <p>Comment does not exist.</p>

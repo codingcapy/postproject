@@ -1,0 +1,13 @@
+<main>
+  <div class="authOptions">
+    <h1>Edit Reply</h1>
+    <a role="button" href="/posts">Back to Home</a>
+  </div>
+  <div>
+    <form action=<%="/comments/reply/edit/" + reply.id %> method="post">
+      <textarea class="text" name="description" id="description" placeholder="Add a reply..."
+        rows="4"><%= reply.description %></textarea>
+      <button type="submit">Update</button>
+    </form>
+  </div>
+</main>

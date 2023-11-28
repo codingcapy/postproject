@@ -97,6 +97,30 @@ const votes = [
   { user_id: 4, post_id: 104, value: -1, vote_id: 10 },
 ];
 
+const replies = {
+  90001: {
+    id: 90001,
+    comment_id: 9001,
+    creator: 2,
+    description: "Me too! 😆",
+    timestamp: 1642691853010,
+  },
+  90002: {
+    id: 90002,
+    comment_id: 9001,
+    creator: 3,
+    description: "Me three! 😆😆😆",
+    timestamp: 1642692793040,
+  },
+  90003: {
+    id: 90003,
+    comment_id: 9002,
+    creator: 4,
+    description: "Haha!",
+    timestamp: 1642696742010,
+  },
+}
+
 function debug() {
   console.log("==== DB DEBUGING ====");
   console.log("users", users);
@@ -295,6 +319,67 @@ function editComment(
 
 function deleteComment(comment_id: number) {
   delete comments[comment_id as keyof typeof comments];
+  for (const replyId in replies) {
+    if (
+      replies[replyId as unknown as keyof typeof replies].comment_id ===
+      comment_id
+    ) {
+      delete replies[replyId as unknown as keyof typeof replies];
+    }
+  }
+  console.log(replies);
+}
+
+function getReplies(comment_id: number) : Reply[] {
+  let allReplies = Object.values(replies);
+  allReplies = allReplies.filter((reply) => reply.comment_id == comment_id);
+  const allRepliesDisplay = allReplies.map((reply) => ({
+    ...reply,
+    username: getUser(reply.creator).uname,
+  }));
+  allRepliesDisplay.sort((a, b) => b.timestamp - a.timestamp);
+  return allRepliesDisplay;
+}
+
+function getReply(reply_id: number) : Reply | null {
+  if (reply_id in replies) {
+    const reply = replies[reply_id as keyof typeof replies];
+    const decoratedReply = {
+      ...reply,
+      username: getUser(reply.creator).uname,
+    };
+    return decoratedReply;
+  } else return null;
+}
+
+function addReply(comment_id: number, creator: number, description: string) : Reply {
+  let id = Math.max(...Object.keys(replies).map(Number)) + 1;
+  let reply = {
+    id,
+    comment_id: comment_id,
+    creator: creator,
+    description,
+    timestamp: Date.now(),
+  };
+  replies[id as keyof typeof replies] = reply;
+  return reply;
+}
+
+function deleteReply(reply_id: number) {
+  delete replies[reply_id as keyof typeof replies];
+}
+
+function editReply(
+  reply_id: number,
+  changes: {
+    description?: string;
+  }
+) {
+  let reply = replies[reply_id as keyof typeof replies];
+
+  if (changes.description) {
+    reply.description = changes.description;
+  }
 }
 
 export {
@@ -314,5 +399,10 @@ export {
   getComment,
   addUser,
   editComment,
-  deleteComment
+  deleteComment,
+  getReplies,
+  addReply,
+  deleteReply,
+  getReply,
+  editReply,
 };

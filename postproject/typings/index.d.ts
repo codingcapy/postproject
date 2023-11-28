@@ -25,6 +25,18 @@ declare global {
     creator: Express.User;
   }
 
+  interface Reply {
+    id: number;
+    comment_id: number;
+    creator: number;
+    description: string;
+    timestamp: number;
+  }
+
+  interface DecoratedReply extends Reply {
+    creator: Express.User;
+  }
+
   interface Post {
     id: number;
     title: string;
@@ -50,4 +62,4 @@ declare global {
   }
 }
 
-export { User, Comment, DecoratedComment, Post, DecoratedPost, Vote, SessionData };
+export { User, Comment, DecoratedComment, Post, DecoratedPost, Vote, SessionData, Reply, DecoratedReply };

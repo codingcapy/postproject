@@ -16,6 +16,15 @@ function canEditComment(
   else return comment.creator.id === user?.id || false;
 }
 
+function canEditReply(
+  reply: Reply | DecoratedReply,
+  user: Express.User | undefined
+) {
+  if (typeof reply.creator === "number")
+    return reply.creator === user?.id || false;
+  else return reply.creator.id === user?.id || false;
+}
+
 function isLoggedIn(user: Express.User | undefined) {
   return typeof user !== "undefined" ? true : false;
 }
@@ -35,4 +44,4 @@ function sortPostBy(posts: DecoratedPost[], sortBy: string) : [DecoratedPost[], 
   return [posts.sort((a, b) => b.timestamp - a.timestamp), "date"];
 }
 
-export { canEditPost, canEditComment, isLoggedIn, sortPostBy };
+export { canEditPost, canEditComment, isLoggedIn, sortPostBy, canEditReply };

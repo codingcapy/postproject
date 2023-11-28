@@ -47,7 +47,7 @@
   Commented by <strong>
     <%= comment.username %>
   </strong> on <%= new Date(comment.timestamp).toString() %> | <a href=<%="/comments/show/" +
-          comment.id%>>Permalink</a>
+          comment.id%>>Show Comment & Replies</a>
   <% if (user?.id==comment.creator) { %> %>
   | <a href=<%="/comments/edit/" + comment.id%>>Edit Comment</a>
   | <a href=<%="/comments/deleteconfirm/" + comment.id%>>Delete Comment</a>
